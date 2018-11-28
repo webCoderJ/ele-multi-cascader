@@ -1,5 +1,5 @@
 {
-  "name": "el-multi-cascader",
+  "name": "multi-cascader",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -8,7 +8,9 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
-    "vue": "^2.5.17"
+    "element-ui": "^2.4.11",
+    "vue": "^2.5.17",
+    "vue-click-outside": "^1.0.7"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.2.0",

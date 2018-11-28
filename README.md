@@ -1,29 +1,32 @@
-# el-multi-cascader
+# Multi-Cascader
 
-## Project setup
+### 概述
+
+> 由于elementUI暂不支持这个功能，但开发中遇到此需求，基于elementUI做了这个多选级联选择器
+
+![](./imgs/cas.png)
+![](./imgs/cas-data.png)
+
+## 安装
+
 ```
 yarn install
 ```
 
-### Compiles and hot-reloads for development
+### 启动
+
 ```
 yarn run serve
 ```
 
-### Compiles and minifies for production
-```
-yarn run build
-```
+使用方法
 
-### Run your tests
-```
-yarn run test
-```
+[查看示例](./src/App.vue)
 
-### Lints and fixes files
-```
-yarn run lint
-```
+### 依赖
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+```
+- Vue
+- ElementUI
+- vue-click-outside
+```
