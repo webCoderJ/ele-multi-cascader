@@ -29,12 +29,13 @@ Vue.use(multiCascader)
 
 ### Attributes
 
-| 参数                                                         | 说明       | 类型   | 可选值            | 默认值 |
-| ------------------------------------------------------------ | ---------- | ------ | ----------------- | ------ |
-| options（当前仅支持children, value, label, disabled）传入组件时需要转换数据，disabled可以禁用某个选项 | 选项数据源 | Array  | --                | --     |
-| v-model(value)                                               | 绑定值     | Array  | --                | --     |
-| placeholder                                                  | 占位文本   | String | --                | 请选择 |
-| size                                                         | 尺寸       | String | medium/small/mini | --     |
+| 参数                                                         | 说明       | 类型    | 可选值            | 默认值 |
+| ------------------------------------------------------------ | ---------- | ------- | ----------------- | ------ |
+| options（当前仅支持children, value, label, disabled）传入组件时需要转换数据，disabled可以禁用某个选项 | 选项数据源 | Array   | --                | --     |
+| v-model(value)                                               | 绑定值     | Array   | --                | --     |
+| placeholder                                                  | 占位文本   | String  | --                | 请选择 |
+| size                                                         | 尺寸       | String  | medium/small/mini | --     |
+| disabled                                                     | 禁用       | Boolean | True/false        | false  |
 
 ### 事件
 
