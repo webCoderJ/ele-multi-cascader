@@ -17,7 +17,8 @@ npm install ele-multi-cascader
 
 ###  使用
 
-```vue
+```js
+// main.js
 import EleMultiCascader from "ele-multi-cascader"
 
 Vue.use(Element)
@@ -38,7 +39,7 @@ Vue.use(EleMultiCascader)
 
 | 事件名称 | 说明             | 回调参数                                    |
 | -------- | ---------------- | ------------------------------------------- |
-| change   | 绑定值发生变化时 | Array:(values当前选中值, items当前选中对象) |
+| change   | 绑定值发生变化时 | Array:(values当前选中值, items当前选中对象数组) |
 | blur     | 失去焦点         | --                                          |
 | focus    | 获得焦点         | --                                          |
 
