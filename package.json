@@ -28,7 +28,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/webCoderJ/ele-multi-cascader"
+    "url": "https://github.com/webCoderJ/ele-multi-cascader.git"
   },
   "eslintConfig": {
     "root": true,
