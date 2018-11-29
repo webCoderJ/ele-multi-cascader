@@ -6,6 +6,7 @@
     "email": "jiejiexf@qq.com",
     "github": "github.com/webCoderJ"
   },
+  "homepage": "https://github.com/webCoderJ/ele-multi-cascader",
   "private": false,
   "scripts": {
     "serve": "vue-cli-service serve",
