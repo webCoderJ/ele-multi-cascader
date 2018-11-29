@@ -9,10 +9,10 @@
 
 ### 安装
 
-ke
+可直接复制源码使用或：
 
 ```shell
-npm install el-multi-cascader
+npm install ele-multi-cascader
 ```
 
 ###  使用
@@ -20,8 +20,10 @@ npm install el-multi-cascader
 ```js
 // main.js
 import Vue from "vue"
-import multiCascader from "el-multi-cascader"
+import Element from "element-ui";
+import multiCascader from "ele-multi-cascader"
 
+Vue.use(Element)
 Vue.use(multiCascader)
 ```
 
