@@ -1,8 +1,8 @@
-import MultiCascader from './main.vue';
+import EleMultiCascader from './main.vue';
 
 /* istanbul ignore next */
-MultiCascader.install = function(Vue) {
-  Vue.component(MultiCascader.name, MultiCascader);
+EleMultiCascader.install = function(Vue) {
+  Vue.component(EleMultiCascader.name, EleMultiCascader);
 };
 
-export default MultiCascader;
+export default EleMultiCascader;

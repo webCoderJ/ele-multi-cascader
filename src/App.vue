@@ -15,12 +15,12 @@
       <el-col :span="8">
         <el-form label-width="80px" ref="form" :model="form" :rules="rules" label-position="left">
           <el-form-item label="ISP: " prop="isp">
-            <multi-cascader
+            <ele-multi-cascader
               :options="options"
               v-model="form.isp"
               placeholder="选择运营商"
               @change="ispChange"
-            ></multi-cascader>
+            ></ele-multi-cascader>
           </el-form-item>
           <el-form-item>
             <br>

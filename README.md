@@ -17,14 +17,11 @@ npm install ele-multi-cascader
 
 ###  使用
 
-```js
-// main.js
-import Vue from "vue"
-import Element from "element-ui";
-import multiCascader from "ele-multi-cascader"
+```vue
+import EleMultiCascader from "ele-multi-cascader"
 
 Vue.use(Element)
-Vue.use(multiCascader)
+Vue.use(EleMultiCascader)
 ```
 
 ### Attributes

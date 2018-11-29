@@ -6,6 +6,7 @@
     "email": "jiejiexf@qq.com",
     "github": "github.com/webCoderJ"
   },
+  "main": "src/components/index.js",
   "homepage": "https://github.com/webCoderJ/ele-multi-cascader",
   "private": false,
   "scripts": {
