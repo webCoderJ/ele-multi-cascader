@@ -16,6 +16,7 @@
           popper-class="hide-popper"
           @focus="handleFocus"
           :disabled="disabled"
+          :size="size"
         ></el-select>
       </div>
       <div class="cascader-menu-wrapper" v-click-outside="hidePopover">
@@ -62,6 +63,7 @@ function deepClone(source) {
   return targetObj;
 }
 export default {
+  name: "MultiCascader",
   props: {
     value: {
       type: Array,
@@ -82,6 +84,10 @@ export default {
       default() {
         return [];
       }
+    },
+    size: {
+      type: String,
+      default: ""
     }
   },
   watch: {
@@ -248,14 +254,14 @@ export default {
       document.getElementsByClassName("cascader-popper")[0].style.width =
         width + "px";
     },
-    handleFocus() {
+    handleFocus(evt) {
       if (this.disabled) return;
       this.showPopover = true;
-      this.$emit("focus", this.selectedValues);
+      this.$emit("focus", evt);
     },
-    hidePopover() {
+    hidePopover(evt) {
       this.showPopover = false;
-      this.$emit("blur", this.selectedValues);
+      this.$emit("blur", evt);
     },
     refresPopover() {
       // 触发resize，让poppover跟随选框，不兼容IE
