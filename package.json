@@ -26,6 +26,10 @@
     "eslint-plugin-vue": "^5.0.0-0",
     "vue-template-compiler": "^2.5.17"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/webCoderJ/ele-multi-cascader"
+  },
   "eslintConfig": {
     "root": true,
     "env": {
