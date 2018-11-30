@@ -10,7 +10,9 @@
 
 ### 安装
 
-可直接复制源码使用或：
+> 可直接复制源码(复制源码注意安装依赖插件`vue-click-outside`)使用
+
+推荐使用npm安装：
 
 ```shell
 npm install ele-multi-cascader
