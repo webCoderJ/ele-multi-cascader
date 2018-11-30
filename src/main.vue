@@ -20,7 +20,7 @@
         ></el-select>
       </div>
       <div class="cascader-menu-wrapper" v-click-outside="hidePopover">
-        <ul class="el-cascader-menu cascader-menu" v-for="(cas, index) in casTree" :key="index">
+        <ul class="el-cascader-menu cascader-menu" v-if="options.length > 0" v-for="(cas, index) in casTree" :key="index">
           <li
             :class="{
               'el-cascader-menu__item': true,
@@ -40,6 +40,9 @@
             <span>{{ item.label }}</span>
           </li>
         </ul>
+        <p class="el-select-dropdown__empty" v-else>
+          无数据
+        </p>
       </div>
     </el-popover>
   </div>
