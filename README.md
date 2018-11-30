@@ -3,6 +3,7 @@
 ### 概述
 
 > 由于`elementUI` 的级联选择器暂不支持多选，因此基于`elementUI`二次开发此组件，所有的样式`class`都是使用 `elementUI` 原样式，基本可无副作用的引入项目使用，仅实现了基本需求，不过应该满足使用。有任何问题欢迎发布 `issue` ，我会在看到第一时间回复大家。
+[查看demo](https://webcoderj.github.io/ele-multi-cascader-demo/)
 
 ![](./imgs/cas.png)
 ![](./imgs/cas-data.png)
@@ -44,8 +45,6 @@ Vue.use(EleMultiCascader)
 | focus    | 获得焦点         | --                                          |
 
 ### 使用
-
-[查看demo](https://webcoderj.github.io/ele-multi-cascader-demo/)
 
 ```html
 <!-- *.vue -->
