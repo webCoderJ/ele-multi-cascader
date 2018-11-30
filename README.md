@@ -39,26 +39,26 @@ Vue.use(EleMultiCascader)
 
 | 事件名称 | 说明             | 回调参数                                    |
 | -------- | ---------------- | ------------------------------------------- |
-| change   | 绑定值发生变化时 | Array:(values当前选中值, items当前选中对象数组) |
+| change   | 绑定值发生变化时 | (Array:values当前选中值, Array:items当前选中对象数组) |
 | blur     | 失去焦点         | --                                          |
 | focus    | 获得焦点         | --                                          |
 
 ### 使用
 
-[查看示例](./src/App.vue)
+[查看demo](https://webcoderj.github.io/ele-multi-cascader-demo/)
 
-```vue
+```html
 <!-- *.vue -->
 <template>
 	<el-form label-width="80px" ref="form" :model="form" :rules="rules" label-position="left">
         <el-form-item label="ISP: " prop="isp">
-            <multi-cascader
+            <ele-multi-cascader
               :options="options"
               v-model="form.isp"
               placeholder="选择运营商"
               @change="ispChange"
               >
-            </multi-cascader>
+            </ele-multi-cascader>
         </el-form-item>
         <el-form-item>
             <el-button type="primary" @click="submit">测试提交</el-button>
@@ -67,12 +67,11 @@ Vue.use(EleMultiCascader)
 </template>
 
 <script>
-import options from "./components/options";
 
 export default {
   data() {
     return {
-      options,
+      options: [],
       outputs: {
         values: [],
         items: []

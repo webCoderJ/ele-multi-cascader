@@ -110,6 +110,7 @@ export default {
   directives: { ClickOutside },
   created() {
     this.initOpts();
+    this.initDatas();
   },
   mounted() {
     // 设置弹出层宽度
@@ -137,10 +138,9 @@ export default {
     };
   },
   methods: {
-    initOpts(){
+    initOpts() {
       this.clonedOpts = deepClone(this.options);
       this.casTree = [this.clonedOpts];
-      this.initDatas();
     },
     // 初始化
     initDatas() {
@@ -154,7 +154,7 @@ export default {
       const vm = this;
       children.forEach(child => {
         child.checked = false;
-        if (this.selectedValues.includes(child.value + "")) {
+        if (this.selectedValues.some(val => val + "" == child.value + "")) {
           this.selectedItems.push(child);
           this.selectedLabels.push(child.label);
           child.checked = true;
