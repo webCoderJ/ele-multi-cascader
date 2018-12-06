@@ -4,6 +4,7 @@
 
 > 由于`elementUI` 的级联选择器暂不支持多选，因此基于`elementUI`二次开发此组件，所有的样式`class`都是使用 `elementUI` 原样式，基本可无副作用的引入项目使用，仅实现了基本需求，不过应该满足使用。有任何问题欢迎发布 `issue` ，我会在看到第一时间回复大家。
 [查看demo](https://webcoderj.github.io/ele-multi-cascader-demo/)
+[查看demo仓库](https://webcoderj.github.io/ele-multi-cascader-demo/)
 
 ![](./imgs/cas.png)
 ![](./imgs/cas-data.png)
@@ -32,7 +33,7 @@ Vue.use(EleMultiCascader)
 
 | 参数                                                         | 说明       | 类型    | 可选值            | 默认值 |
 | ------------------------------------------------------------ | ---------- | ------- | ----------------- | ------ |
-| options（当前仅支持children, value, label, disabled）传入组件时需要转换数据，disabled可以禁用某个选项 | 选项数据源 | Array   | --                | --     |
+| options（当前仅支持children, value, label, disabled等字段）传入组件时需要转换数据，disabled可以禁用某个选项 | 选项数据源 | Array   | --                | --     |
 | v-model(value)                                               | 绑定值     | Array   | --                | --     |
 | placeholder                                                  | 占位文本   | String  | --                | 请选择 |
 | size                                                         | 尺寸       | String  | medium/small/mini | --     |
