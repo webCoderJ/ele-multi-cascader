@@ -7,26 +7,29 @@
       v-model="showPopover"
     >
       <div slot="reference">
-        <el-select
-          multiple
-          @change="selectChange"
-          v-model="selectedLabels"
-          :placeholder="placeholder"
-          style="width: 100%;"
-          popper-class="hide-popper"
-          @focus="handleFocus"
-          :disabled="disabled"
-          :size="size"
-        ></el-select>
+        <span @click.native="togglePopover">
+          <el-select
+            multiple
+            v-model="selectedLabels"
+            :placeholder="placeholder"
+            :disabled="disabled"
+            :size="size"
+            style="width: 100%;"
+            popper-class="hide-popper"
+            @focus="handleFocus"
+            @blur="handleBlur"
+            @remove-tag="removeTag"
+          ></el-select>
+        </span>
       </div>
       <div class="cascader-menu-wrapper" v-click-outside="hidePopover">
-        <ul class="el-cascader-menu cascader-menu" v-for="(cas, index) in casTree" :key="index">
+        <ul v-if="options.length > 0" class="el-cascader-menu cascader-menu" v-for="(cas, index) in casTree" :key="index">
           <li
             :class="{
               'el-cascader-menu__item': true,
               'el-cascader-menu__item--extensible': item.children && item.children.length > 0,
-              'has-checked-child': item.hasCheckedChild,
-              'is-active': item.hasCheckedChild,
+              'has-checked-child': item.indeterminate || item.hasCheckedChild,
+              'is-active': item.checked,
             }"
             @click="spreadNext(item.children, index)"
             v-for="(item, itemIdx) in cas"
@@ -35,9 +38,15 @@
             <el-checkbox
               :disabled="item.disabled"
               v-model="item.checked"
-              @change="checked => { checkedChange(item, index, checked) }"
+              :indeterminate="item.indeterminate"
+              @change="checked => { checkedChange(item, checked) }"
             ></el-checkbox>&nbsp;&nbsp;
             <span>{{ item.label }}</span>
+          </li>
+        </ul>
+        <ul class="el-cascader-menu cascader-menu" v-else>
+          <li class="el-cascader-menu__item dropdown__empty">
+            无数据
           </li>
         </ul>
       </div>
@@ -61,6 +70,9 @@ function deepClone(source) {
     }
   });
   return targetObj;
+}
+function hasArrayChild(obj){
+  return obj.children && Array.isArray(obj.children);
 }
 export default {
   name: "EleMultiCascader",
@@ -88,6 +100,10 @@ export default {
     size: {
       type: String,
       default: ""
+    },
+    selectChildren: {
+      type: Boolean,
+      default: false
     }
   },
   watch: {
@@ -95,14 +111,16 @@ export default {
       deep: true,
       handler() {
         this.initOpts();
+        this.initDatas();
       }
     },
     value: {
       deep: true,
       handler() {
-        if (!this.hasInitModel) {
+        if(this.selectedValues != this.value){
+          console.log("MODEL - CHANGE");
+          this.initOpts();
           this.initDatas();
-          this.hasInitModel = true;
         }
       }
     }
@@ -133,70 +151,214 @@ export default {
       casTree: [],
       selectedItems: [],
       selectedLabels: [],
-      selectedValues: [],
-      hasInitModel: false
+      selectedValues: []
     };
   },
   methods: {
     initOpts() {
       this.clonedOpts = deepClone(this.options);
+      this.recursiveOpt(this.clonedOpts, null);
       this.casTree = [this.clonedOpts];
     },
-    // 初始化
+    /**
+     * 初始化数据
+     * 空值初始化，两个绑定不一致的情况
+     */
     initDatas() {
-      this.selectedValues = this.value;
-      this.selectedItems = [];
-      this.selectedLabels = [];
-      this.recursiveOpt(this.clonedOpts);
+      this.pickCheckedItem(this.clonedOpts);
     },
-    // 递归option数据
-    recursiveOpt(children) {
+    /**
+     * 递归option数据
+     * 标记数据树形层级 parent
+     * 打上初始状态 checked indeterminate
+     */
+    recursiveOpt(nodeArr, parent) {
       const vm = this;
-      children.forEach(child => {
-        child.checked = false;
-        if (this.selectedValues.some(val => val + "" == child.value + "")) {
-          this.selectedItems.push(child);
-          this.selectedLabels.push(child.label);
-          child.checked = true;
-          this.describeCheckedMap(child);
-        } else {
-          child.checked = false;
+      nodeArr.forEach(node => {
+        if(parent){
+          node.parent = parent;
         }
-        if (child.children && child.children.length > 0) {
-          vm.recursiveOpt(child.children);
+        node.indeterminate = false;
+        node.checked = false;
+        if (this.value.some(val => val == node.value)) {
+          node.checked = true;
+        }
+        this.markChildrenChecked(node);
+        this.markParentChecked(node);
+        this.markParentHasCheckChild(node);
+        if (hasArrayChild(node)) {
+          vm.recursiveOpt(node.children, node);
         }
       });
     },
-    // 描述已选中路径
-    describeCheckedMap(targetChild) {
-      function findParents(parents = [], children) {
-        children.forEach(child => {
-          if (targetChild.value === child.value) {
-            if (child.checked) {
-              parents.forEach(per => {
-                per.hasCheckedChild = true;
-              });
-            } else {
-              // 倒序遍历
-              for (let i = parents.length - 1; i >= 0; i--) {
-                let per = parents[i];
-                let hasCheckedChild = false;
-                if (per.children && per.children.length > 0) {
-                  hasCheckedChild = per.children.some(
-                    v => v.checked || v.hasCheckedChild
-                  );
-                }
-                per.hasCheckedChild = hasCheckedChild;
-              }
+    /**
+     * 根据当前节点 checked
+     * 更改所有子孙节点 checked
+     * 依赖 this.selectChildren
+     */
+    markChildrenChecked(node){
+      function loop(children, status){
+        if(children){
+          children.map(child => {
+            if(!child.disabled){
+              child.checked = status;
             }
-          } else {
-            if (Array.isArray(child.children)) {
-              findParents([...parents, child], child.children);
+            if(hasArrayChild(child)){
+              loop(child.children, status)
             }
-          }
-        });
+          })
+        }
       }
-      findParents([], this.clonedOpts);
+      if(node && hasArrayChild(node) && this.selectChildren){
+        loop(node.children, node.checked);
+      }
+    },
+    /**
+     * 标记父节点 checked、indeterminate 状态
+     * 依赖 this.selectChildren
+     */
+    markParentChecked(node){
+      node.indeterminate = false;
+      function loop(node){
+        let checkCount = 0;
+        let childIndeterminate = node.children.some(child => child.indeterminate)
+        node.children.map(child => {
+          if(child.checked){
+            checkCount ++;
+          }
+        })
+        // 子节点全部被选中
+        if(checkCount === node.children.length){
+          node.checked = true;
+          node.indeterminate = false;
+        } else {
+          node.checked = false;
+          if(checkCount > 0 || childIndeterminate){
+            node.indeterminate = true;
+          } else {
+            node.indeterminate = false;
+          }
+        }
+        if(node.parent){
+          loop(node.parent)
+        }
+      }
+      if(node && node.parent && this.selectChildren){
+        loop(node.parent)
+      }
+    },
+    /**
+     * 标记是否有被选子项
+     * 依赖 this.selectChildren
+     */
+    markParentHasCheckChild(node){
+      node.hasCheckedChild = false;
+      function loop(node){
+        let checkCount = 0;
+        let childHasCheckedChild = node.children.some(child => child.hasCheckedChild)
+        node.children.map(child => {
+          if(child.checked){
+            checkCount ++;
+          }
+        })
+        // 子节点有被选中
+        node.hasCheckedChild = (checkCount > 0) || childHasCheckedChild;
+        if(node.parent){
+          loop(node.parent)
+        }
+      }
+      if(node && node.parent && !this.selectChildren){
+        loop(node.parent)
+      }
+    },
+    /**
+     * 处理已选中
+     * 重新遍历tree，pick除已选中项目
+     */
+    pickCheckedItem(tree){
+      /**
+       * 移除parent引用
+       */
+      function removeParent(node){
+        let obj = {};
+        Object.keys(node).forEach(key => {
+          if(key != "parent"){
+            obj[key] = node[key];
+          }
+        })
+        if(hasArrayChild(obj)){
+          obj.children = obj.children.map(child => {
+            return removeParent(child);
+          })
+        }
+        return obj;
+      }
+      const vm = this;
+      vm.selectedItems = [];
+      vm.selectedLabels = [];
+      vm.selectedValues = [];
+      function loop(data){
+        if(Array.isArray(data)){
+          data.map(item => {
+            if(item.checked){
+              let newItem = removeParent(item);
+              vm.selectedItems.push(newItem);
+              vm.selectedLabels.push(newItem.label);
+              vm.selectedValues.push(newItem.value);
+            }
+            if(hasArrayChild(item)){
+              loop(item.children)
+            }
+          })
+        }
+      }
+      loop(tree);
+    },
+    removeTag(label){
+      /**
+     * 遍历 tree
+     * 根据传入label 寻找 item
+     */
+      function findNodeByLabel(label){
+        let result = null;
+        function loop(tree){
+          if(tree){
+            tree.find(node => {
+              if(node.label === label){
+                result = node;
+                return true
+              }
+              if(hasArrayChild(node)){
+                loop(node.children)
+              }
+            })
+          }
+        }
+        if(label){
+          loop(this.clonedOpts);
+          return result
+        }
+      }
+      let deletedItem = findNodeByLabel(label);
+      if(deletedItem){
+        this.checkedChange(deletedItem, false);
+      }
+    },
+    // 菜单选中变化
+    checkedChange(item, checked) {
+      item.checked = checked;
+      this.$emit("clickItem", item);
+      this.markChildrenChecked(item);
+      this.markParentChecked(item);
+      this.markParentHasCheckChild(item);
+      this.pickCheckedItem(this.clonedOpts);
+      this.refresPopover();
+      this.syncData();
+    },
+    // 同步数据到上层
+    syncData() {
+      this.$emit("input", this.selectedValues);
+      this.$emit("change", this.selectedValues, this.selectedItems);
     },
     // 展开下一级
     spreadNext(children, index) {
@@ -209,62 +371,27 @@ export default {
         this.setPopperWidth();
       }
     },
-    syncData() {
-      // 同步数据到上层
-      this.$emit("input", this.selectedValues);
-      this.$emit("change", this.selectedValues, this.selectedItems);
-    },
-    // 选择框点击删除
-    selectChange(val) {
-      this.selectedLabels = val;
-      let deletedItem = this.selectedItems.filter(
-        item => !val.includes(item.label)
-      )[0];
-      deletedItem.checked = false;
-      this.describeCheckedMap(deletedItem);
-      this.selectedItems = this.selectedItems.filter(v =>
-        this.selectedLabels.includes(v.label)
-      );
-      this.selectedValues = this.selectedItems.map(v => v.value);
-      this.syncData();
-      this.refresPopover();
-    },
-    // 菜单选中变化
-    checkedChange(item, index, checked) {
-      if (checked) {
-        this.selectedItems.push(item);
-      } else {
-        this.selectedItems = this.selectedItems.filter(
-          selectedItem => selectedItem.label != item.label
-        );
-      }
-      this.selectedLabels = [];
-      this.selectedValues = [];
-      this.selectedItems.forEach(item => {
-        this.selectedLabels.push(item.label);
-        this.selectedValues.push(item.value);
-      });
-      this.syncData();
-      this.describeCheckedMap(item);
-      this.refresPopover();
-    },
     // 改变菜单宽度
     setPopperWidth() {
       let width = (160 + 1) * this.casTree.length;
       document.getElementsByClassName("cascader-popper")[0].style.width =
         width + "px";
     },
-    handleFocus(evt) {
+    handleFocus(evt){
       if (this.disabled) return;
       this.showPopover = true;
-      this.$emit("focus", evt);
+      this.$emit("focus", evt)
+    },
+    handleBlur(){
+      if (this.disabled) return;
+      this.showPopover = true;
     },
     hidePopover(evt) {
       this.showPopover = false;
       this.$emit("blur", evt);
     },
+    // 触发resize，让poppover跟随选框，不兼容IE ~_~!
     refresPopover() {
-      // 触发resize，让poppover跟随选框，不兼容IE
       let resize = new Event("resize");
       setTimeout(() => {
         window.dispatchEvent(resize);
@@ -287,5 +414,13 @@ export default {
 }
 .el-cascader-menu__item.has-checked-child {
   background-color: #f5f7fa !important;
+}
+.dropdown__empty {
+  height: 100%;
+  padding-top: 50%;
+  margin: 0;
+  text-align: center;
+  color: #999;
+  font-size: 14px;
 }
 </style>
