@@ -319,6 +319,7 @@ export default {
      * 遍历 tree
      * 根据传入label 寻找 item
      */
+      const vm = this;
       function findNodeByLabel(label){
         let result = null;
         function loop(tree){
@@ -335,13 +336,13 @@ export default {
           }
         }
         if(label){
-          loop(this.clonedOpts);
+          loop(vm.clonedOpts);
           return result
         }
       }
       let deletedItem = findNodeByLabel(label);
       if(deletedItem){
-        this.checkedChange(deletedItem, false);
+        vm.checkedChange(deletedItem, false);
       }
     },
     // 菜单选中变化
