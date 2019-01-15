@@ -14,6 +14,7 @@
             :placeholder="placeholder"
             :disabled="disabled"
             :size="size"
+            :collapse-tags="collapseTags"
             style="width: 100%;"
             popper-class="hide-popper"
             @focus="handleFocus"
@@ -46,7 +47,7 @@
         </ul>
         <ul class="el-cascader-menu cascader-menu" v-else>
           <li class="el-cascader-menu__item dropdown__empty">
-            无数据
+            {{ noDataText }}
           </li>
         </ul>
       </div>
@@ -104,9 +105,32 @@ export default {
     selectChildren: {
       type: Boolean,
       default: false
-    }
+    },
+    noDataText: {
+      type: String,
+      default: "无数据"
+    },
+    collapseTags: {
+      type: Boolean,
+      default: false
+    },
+    separator: {
+      type: String,
+      default: "/"
+    },
+    showAllLevels: {
+      type: Boolean,
+      default: false
+    },
+    outputLevelValue: {
+      type: Boolean,
+      default: false
+    },
   },
   watch: {
+    casTree(){
+      this.setPopperWidth();
+    },
     options: {
       deep: true,
       handler() {
@@ -118,7 +142,6 @@ export default {
       deep: true,
       handler() {
         if(this.selectedValues != this.value){
-          console.log("MODEL - CHANGE");
           this.initOpts();
           this.initDatas();
         }
@@ -133,7 +156,6 @@ export default {
   mounted() {
     // 设置弹出层宽度
     this.elWidth = this.$el.offsetWidth;
-    this.setPopperWidth();
   },
   destroyed() {
     this.clonedOpts = null;
@@ -180,7 +202,7 @@ export default {
         }
         node.indeterminate = false;
         node.checked = false;
-        if (this.value.some(val => val == node.value)) {
+        if (this.value.some(val => val == this.getLevel(node, "value", this.outputLevelValue))) {
           node.checked = true;
         }
         this.markChildrenChecked(node);
@@ -271,6 +293,22 @@ export default {
         loop(node.parent)
       }
     },
+    // 展示标签所有层级
+    getLevel(node, key, leveled){
+      let levels = [];
+      function loop(data){
+        levels.push(data[key]);
+        if(data.parent){
+          loop(data.parent)
+        }
+      }
+      if(leveled){
+        loop(node);
+        return levels.reverse().join(this.separator);
+      } else {
+        return node[key]
+      }
+    },
     /**
      * 处理已选中
      * 重新遍历tree，pick除已选中项目
@@ -303,8 +341,8 @@ export default {
             if(item.checked){
               let newItem = removeParent(item);
               vm.selectedItems.push(newItem);
-              vm.selectedLabels.push(newItem.label);
-              vm.selectedValues.push(newItem.value);
+              vm.selectedLabels.push(vm.getLevel(item, "label", vm.showAllLevels));
+              vm.selectedValues.push(vm.getLevel(item, "value", vm.outputLevelValue));
             }
             if(hasArrayChild(item)){
               loop(item.children)
@@ -325,7 +363,7 @@ export default {
         function loop(tree){
           if(tree){
             tree.find(node => {
-              if(node.label === label){
+              if(vm.getLevel(node, "label") === label){
                 result = node;
                 return true
               }
@@ -369,7 +407,6 @@ export default {
         } else {
           this.casTree.splice(index + 1, this.casTree.length - 1);
         }
-        this.setPopperWidth();
       }
     },
     // 改变菜单宽度

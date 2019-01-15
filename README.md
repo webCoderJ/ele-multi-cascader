@@ -36,14 +36,19 @@ Vue.use(EleMultiCascader)
 
 ### Attributes
 
-| 参数                                                         | 说明         | 类型    | 可选值            | 默认值 |
-| ------------------------------------------------------------ | ------------ | ------- | ----------------- | ------ |
-| options（当前仅支持children, value, label, disabled等字段）传入组件时需要转换数据，disabled可以禁用某个选项 | 选项数据源   | Array   | --                | --     |
-| v-model(value)                                               | 绑定值       | Array   | --                | --     |
-| placeholder                                                  | 占位文本     | String  | --                | 请选择 |
-| size                                                         | 尺寸         | String  | medium/small/mini | --     |
-| disabled                                                     | 禁用         | Boolean | true/false        | false  |
-| selectChildren                                               | 点击选中子项 | Boolean | true/false        | false  |
+| 参数                                                         | 说明                         | 类型    | 可选值            | 默认值 |
+| ------------------------------------------------------------ | ---------------------------- | ------- | ----------------- | ------ |
+| options（当前仅支持children, value, label, disabled等字段）传入组件时需要转换数据，disabled可以禁用某个选项 | 选项数据源                   | Array   | --                | --     |
+| v-model(value)                                               | 绑定值                       | Array   | --                | --     |
+| placeholder                                                  | 占位文本                     | String  | --                | 请选择 |
+| no-data-text                                                 | 无数据占位字符               | String  |                   | 无数据 |
+| size                                                         | 尺寸                         | String  | medium/small/mini | --     |
+| disabled                                                     | 禁用                         | Boolean | true/false        | false  |
+| selectChildren                                               | 点击选中子项                 | Boolean | true/false        | false  |
+| collapse-tags                                                | 是否折叠标签                 | Boolean | true/false        | false  |
+| show-all-levels                                              | 控制标签展示全部层级         | Boolean | true/false        | false  |
+| output-level-value                                           | 控制输出value 是否为全部层级 | Boolean | true/false        | false  |
+| separator （会对输出value和展示标签同时起作用）              | 层级分隔符                   | String  | -                 | /      |
 
 ### 事件
 
