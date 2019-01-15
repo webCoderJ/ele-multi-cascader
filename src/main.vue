@@ -3,7 +3,7 @@
     <el-popover
       placement="bottom-start"
       trigger="manual"
-      popper-class="cascader-popper"
+      :popper-class="popperClass"
       v-model="showPopover"
     >
       <div slot="reference">
@@ -150,6 +150,7 @@ export default {
   },
   directives: { ClickOutside },
   created() {
+    this.popperClass = `cascader-popper popper-class-${(new Date().getTime())}`
     this.initOpts();
     this.initDatas();
   },
@@ -168,6 +169,7 @@ export default {
     return {
       elWidth: "",
       popperWidth: "",
+      popperClass: "",
       showPopover: false,
       clonedOpts: [],
       casTree: [],
@@ -363,7 +365,7 @@ export default {
         function loop(tree){
           if(tree){
             tree.find(node => {
-              if(vm.getLevel(node, "label") === label){
+              if(vm.getLevel(node, "label", vm.showAllLevels) === label){
                 result = node;
                 return true
               }
@@ -412,8 +414,7 @@ export default {
     // 改变菜单宽度
     setPopperWidth() {
       let width = (160 + 1) * this.casTree.length;
-      document.getElementsByClassName("cascader-popper")[0].style.width =
-        width + "px";
+      document.getElementsByClassName(this.popperClass)[0].style.width = width + "px";
     },
     handleFocus(evt){
       if (this.disabled) return;
