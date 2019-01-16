@@ -7,20 +7,19 @@
       v-model="showPopover"
     >
       <div slot="reference">
-        <span @click.native="togglePopover">
-          <el-select
-            multiple
-            v-model="selectedLabels"
-            :placeholder="placeholder"
-            :disabled="disabled"
-            :size="size"
-            :collapse-tags="collapseTags"
-            style="width: 100%;"
-            popper-class="hide-popper"
-            @focus="handleFocus"
-            @remove-tag="removeTag"
-          ></el-select>
-        </span>
+        <el-select
+          multiple
+          v-model="selectedLabels"
+          :placeholder="placeholder"
+          :disabled="disabled"
+          :size="size"
+          :collapse-tags="collapseTags"
+          style="width: 100%;"
+          popper-class="hide-popper"
+          @focus="handleFocus"
+          @remove-tag="removeTag"
+          @visible-change="visibleChange"
+        ></el-select>
       </div>
       <div class="cascader-menu-wrapper" v-clickoutside="hidePopover">
         <ul v-if="options.length > 0" class="el-cascader-menu cascader-menu" v-for="(cas, index) in casTree" :key="index">
@@ -418,9 +417,13 @@ export default {
       let width = (160 + 1) * this.casTree.length;
       document.getElementsByClassName(this.popperClass)[0].style.width = width + "px";
     },
+    visibleChange(visible){
+      if(visible){
+        this.showPopover = true;
+      }
+    },
     handleFocus(evt){
       if (this.disabled) return;
-      this.showPopover = true;
       this.$emit("focus", evt)
     },
     hidePopover(evt) {
