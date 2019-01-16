@@ -225,6 +225,9 @@ export default {
           children.map(child => {
             if(!child.disabled){
               child.checked = status;
+              if(child.checked){
+                child.indeterminate = false;
+              }
             }
             if(hasArrayChild(child)){
               loop(child.children, status)
