@@ -1,22 +1,30 @@
 # Multi-Cascader
 
-### 2019-01-14 更新
-- 支持选中子项 `selectChildren` [#4](https://github.com/webCoderJ/ele-multi-cascader/issues/4)
-- 支持 `@clickItem` 事件，返回当前点击项，触发时机先于 `@change`
-- 修复 `v-model` 只能初始化一次的BUG [#5](https://github.com/webCoderJ/ele-multi-cascader/issues/5)
-
 ### 概述
 
 > 由于`elementUI` 的级联选择器暂不支持多选，因此基于`elementUI`二次开发此组件，所有的样式`class`都是使用 `elementUI` 原样式，基本可无副作用的引入项目使用，仅实现了基本需求，不过应该满足使用。有任何问题欢迎发布 `issue` ，我会在看到第一时间回复大家。
 - [查看demo](https://webcoderj.github.io/ele-multi-cascader-demo/)
 - [查看demo仓库](https://www.github.com/webcoderj/ele-multi-cascader-demo/)
 
+#### 2019-01-16 更新
+- 修复 [#11](https://github.com/webCoderJ/ele-multi-cascader/issues/11) BUG
+- 新增 `collapse-tags` 选项，控制输入框标签折叠，同 `elementUI`
+- 新增 `show-all-levels` 选项，控制是否展示所有层级，同 `elementUI`
+- 新增 `output-level-value` 选项，控制输出value 是否为全部层级
+- 新增 `separator` 选项，控制层级分隔符`Note：会对输出value和展示标签同时起作用`
+- 新增 `no-data-text` 选项，修改无数据文字
+
+#### 2019-01-14 更新
+- 支持选中子项 `selectChildren` [#4](https://github.com/webCoderJ/ele-multi-cascader/issues/4)
+- 支持 `@clickItem` 事件，返回当前点击项，触发时机先于 `@change`
+- 修复 `v-model` 只能初始化一次的BUG [#5](https://github.com/webCoderJ/ele-multi-cascader/issues/5)
+
 ![](./imgs/cas.png)
 ![](./imgs/cas-data.png)
 
 ### 安装
 
-> 可直接复制源码(复制源码注意安装依赖插件`vue-click-outside`)使用
+> 可直接复制源码
 
 推荐使用npm安装：
 

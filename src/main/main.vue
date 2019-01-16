@@ -18,12 +18,11 @@
             style="width: 100%;"
             popper-class="hide-popper"
             @focus="handleFocus"
-            @blur="handleBlur"
             @remove-tag="removeTag"
           ></el-select>
         </span>
       </div>
-      <div class="cascader-menu-wrapper" v-click-outside="hidePopover">
+      <div class="cascader-menu-wrapper" v-clickoutside="hidePopover">
         <ul v-if="options.length > 0" class="el-cascader-menu cascader-menu" v-for="(cas, index) in casTree" :key="index">
           <li
             :class="{
@@ -56,7 +55,7 @@
 </template>
 
 <script>
-import ClickOutside from "vue-click-outside";
+import Clickoutside from "./clickoutside";
 function deepClone(source) {
   if (!source && typeof source !== "object") {
     throw new Error("error arguments", "shallowClone");
@@ -148,7 +147,7 @@ export default {
       }
     }
   },
-  directives: { ClickOutside },
+  directives: { Clickoutside },
   created() {
     this.popperClass = `cascader-popper popper-class-${(new Date().getTime())}`
     this.initOpts();
@@ -420,10 +419,6 @@ export default {
       if (this.disabled) return;
       this.showPopover = true;
       this.$emit("focus", evt)
-    },
-    handleBlur(){
-      if (this.disabled) return;
-      this.showPopover = true;
     },
     hidePopover(evt) {
       this.showPopover = false;
