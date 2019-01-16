@@ -143,5 +143,4 @@ export default {
 ```
 - Vue
 - ElementUI
-- vue-click-outside
 ```
