@@ -6,6 +6,9 @@
 - [查看demo](https://webcoderj.github.io/ele-multi-cascader-demo/)
 - [查看demo仓库](https://www.github.com/webcoderj/ele-multi-cascader-demo/)
 
+#### 2019-03-12
+最近真的很忙，没有时间更新，大家提的ISSUE都看到了。基本都是小问题和功能更新。预计在四月初回更新完善 ^_^
+
 #### 2019-01-16 更新
 - 修复 [#11](https://github.com/webCoderJ/ele-multi-cascader/issues/11) BUG
 - 新增 `collapse-tags` 选项，控制输入框标签折叠，同 `elementUI`
