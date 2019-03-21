@@ -27,14 +27,17 @@
             :class="{
               'el-cascader-menu__item': true,
               'el-cascader-menu__item--extensible': item.children && item.children.length > 0,
+              'can-load-children': !item.isLeaf && !item.children && allowLoadChildren && showLoadingIndicator,
+              'loading-children': !item.isLeaf && item.loading && allowLoadChildren && showLoadingIndicator,
               'has-checked-child': item.indeterminate || item.hasCheckedChild,
               'is-active': item.checked,
             }"
-            @click="spreadNext(item.children, index)"
+            @click="spreadNext(item.children, index, item)"
             v-for="(item, itemIdx) in cas"
             :key="itemIdx"
           >
             <el-checkbox
+              @click.native.stop
               :disabled="item.disabled"
               v-model="item.checked"
               :indeterminate="item.indeterminate"
@@ -123,6 +126,35 @@ export default {
     outputLevelValue: {
       type: Boolean,
       default: false
+    },
+    // 显示加载指示器
+    showLoadingIndicator: {
+      type: Boolean,
+      default: true
+    },
+    // 允许加载子项
+    allowLoadChildren: {
+      type: Boolean,
+      default: false
+    },
+    // 加载方法
+    loadChildrenMethod: {
+      type: Function,
+      default: null,
+      return: Promise
+    },
+    // key
+    labelKey: {
+      type: String,
+      default: "label"
+    },
+    valueKey: {
+      type: String,
+      default: "value"
+    },
+    childrenKey: {
+      type: String,
+      default: "children"
     },
   },
   watch: {
@@ -246,22 +278,24 @@ export default {
       node.indeterminate = false;
       function loop(node){
         let checkCount = 0;
-        let childIndeterminate = node.children.some(child => child.indeterminate)
-        node.children.map(child => {
-          if(child.checked){
-            checkCount ++;
-          }
-        })
-        // 子节点全部被选中
-        if(checkCount === node.children.length){
-          node.checked = true;
-          node.indeterminate = false;
-        } else {
-          node.checked = false;
-          if(checkCount > 0 || childIndeterminate){
-            node.indeterminate = true;
-          } else {
+        if(hasArrayChild(node)){
+          let childIndeterminate = node.children.some(child => child.indeterminate)
+          node.children.map(child => {
+            if(child.checked){
+              checkCount ++;
+            }
+          })
+          // 子节点全部被选中
+          if(checkCount === node.children.length){
+            node.checked = true;
             node.indeterminate = false;
+          } else {
+            node.checked = false;
+            if(checkCount > 0 || childIndeterminate){
+              node.indeterminate = true;
+            } else {
+              node.indeterminate = false;
+            }
           }
         }
         if(node.parent){
@@ -403,7 +437,28 @@ export default {
       this.$emit("change", this.selectedValues, this.selectedItems);
     },
     // 展开下一级
-    spreadNext(children, index) {
+    async spreadNext(children, index, item) {
+      if(
+        this.allowLoadChildren && 
+        !children && !item.children &&
+        this.loadChildrenMethod && 
+        this.loadChildrenMethod.constructor === Function &&
+        !item.isLeaf
+      ){
+        this.$set(item, "loading", true);
+        let result = await this.loadChildrenMethod(item).catch(e => {
+          this.$set(item, "loading", false);
+        });
+        this.$set(item, "loading", false);
+        if(result && result.constructor === Array){
+          this.recursiveOpt(result, item);
+          this.$set(item, "children", result);
+          children = result;
+        } else {
+          console.warn("The resolved value by loadChildrenMethod must be Option Array !")
+        }
+      }
+      
       if (index || index === 0) {
         if (children && children.length > 0) {
           this.casTree.splice(index + 1, this.casTree.length - 1, children);
@@ -411,6 +466,8 @@ export default {
           this.casTree.splice(index + 1, this.casTree.length - 1);
         }
       }
+
+      this.$emit("spread", item);
     },
     // 改变菜单宽度
     setPopperWidth() {
@@ -462,5 +519,33 @@ export default {
   text-align: center;
   color: #999;
   font-size: 14px;
+}
+.can-load-children {
+  position: relative;
+}
+.can-load-children::after {
+  content: "";
+  display: inline-block;
+  position: absolute;
+  width: 5px;
+  height: 5px;
+  background: #a5d279;
+  right: 20px;
+  top: 50%;
+  border-radius: 10px;
+  transform: translateY(-50%);
+  -webkit-transform: translateY(-50%);
+}
+.can-load-children.loading-children::after {
+  animation: loading 0.22s infinite alternate;
+  -moz-animation: loading 0.22s infinite alternate;	/* Firefox */
+  -webkit-animation: loading 0.22s infinite alternate;	/* Safari 和 Chrome */
+  -o-animation: loading 0.22s infinite alternate;	/* Opera */
+}
+
+@keyframes loading
+{
+from {background: #a5d279;}
+to {background: #334d19;}
 }
 </style>
