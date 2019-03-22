@@ -3,11 +3,11 @@
 ### 概述
 
 > 由于`elementUI` 的级联选择器暂不支持多选，因此基于`elementUI`二次开发此组件，所有的样式`class`都是使用 `elementUI` 原样式，基本可无副作用的引入项目使用，仅实现了基本需求，不过应该满足使用。有任何问题欢迎发布 `issue`，我会在看到第一时间回复大家。
-> 如果觉得组件还不错的话 不要吝啬你的 `star` 哦 ~,~
+> 如果觉得组件还不错的话 不要吝啬你的 `star` 哦~
 - [查看demo](https://webcoderj.github.io/ele-multi-cascader-demo/)
 - [查看demo仓库](https://www.github.com/webcoderj/ele-multi-cascader-demo/)
 
-#### 2019-03-22
+#### 2019-03-22 更新
 
 - 支持动态加载子项 [#17](https://github.com/webCoderJ/ele-multi-cascader/issues/17) `Function(parentItem<Object>): Promise: []` 详情查看`Attributes`文档
 - 支持通过设置 `label-key` ， `children-key` ， `value-key` 来设置 label、value、children 字段
@@ -74,7 +74,7 @@ Vue.use(EleMultiCascader)
 
 | 参数     | 说明           | 类型                                                         | 可选值     | 默认值 |
 | -------- | -------------- | ------------------------------------------------------------ | ---------- | ------ |
-| isLeaf   | 是否为叶子节点 | Boolean，`特别说明：`这一选项是option字段，说明是否为叶子节点(树的最后一层)。如果是，则不会加载子选项，也不会有`加载指示灯`，详情可查看[demo](https://webcoderj.github.io/ele-multi-cascader-demo/) | true/false | false  |
+| isLeaf   | 是否为叶子节点 | Boolean，`特别说明：`标记该项目是否为叶子节点(树的最后一层)，仅用于动态加载子项。如果children(childrenKey)值不为空，会直接忽略isLeaf。如果为真，则不会加载子选项，也不会有`加载指示灯`，详情可查看[demo](https://webcoderj.github.io/ele-multi-cascader-demo/) | true/false | false  |
 | disabled | 禁用该选项     | Boolean                                                      | true/false | false  |
 
 
