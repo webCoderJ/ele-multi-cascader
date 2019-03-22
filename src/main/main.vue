@@ -26,13 +26,13 @@
           <li
             :class="{
               'el-cascader-menu__item': true,
-              'el-cascader-menu__item--extensible': item.children && item.children.length > 0,
-              'can-load-children': !item.isLeaf && !item.children && allowLoadChildren && showLoadingIndicator,
+              'el-cascader-menu__item--extensible': item[childrenKey] && item[childrenKey].length > 0,
+              'can-load-children': !item.isLeaf && !item[childrenKey] && allowLoadChildren && showLoadingIndicator,
               'loading-children': !item.isLeaf && item.loading && allowLoadChildren && showLoadingIndicator,
               'has-checked-child': item.indeterminate || item.hasCheckedChild,
               'is-active': item.checked,
             }"
-            @click="spreadNext(item.children, index, item)"
+            @click="spreadNext(item[childrenKey], index, item)"
             v-for="(item, itemIdx) in cas"
             :key="itemIdx"
           >
@@ -42,8 +42,8 @@
               v-model="item.checked"
               :indeterminate="item.indeterminate"
               @change="checked => { checkedChange(item, checked) }"
-            ></el-checkbox>&nbsp;&nbsp;
-            <span>{{ item.label }}</span>
+            ></el-checkbox>
+            <span>{{ item[labelKey] }}</span>
           </li>
         </ul>
         <ul class="el-cascader-menu cascader-menu" v-else>
@@ -73,8 +73,8 @@ function deepClone(source) {
   });
   return targetObj;
 }
-function hasArrayChild(obj){
-  return obj.children && Array.isArray(obj.children);
+function hasArrayChild(obj, childrenKey){
+  return obj[childrenKey] && Array.isArray(obj[childrenKey]);
 }
 export default {
   name: "EleMultiCascader",
@@ -234,14 +234,14 @@ export default {
         }
         node.indeterminate = false;
         node.checked = false;
-        if (this.value.some(val => val == this.getLevel(node, "value", this.outputLevelValue))) {
+        if (this.value.some(val => val == this.getLevel(node, vm.valueKey, this.outputLevelValue))) {
           node.checked = true;
         }
         this.markChildrenChecked(node);
         this.markParentChecked(node);
         this.markParentHasCheckChild(node);
-        if (hasArrayChild(node)) {
-          vm.recursiveOpt(node.children, node);
+        if (hasArrayChild(node, vm.childrenKey)) {
+          vm.recursiveOpt(node[vm.childrenKey], node);
         }
       });
     },
@@ -251,6 +251,7 @@ export default {
      * 依赖 this.selectChildren
      */
     markChildrenChecked(node){
+      const vm = this;
       function loop(children, status){
         if(children){
           children.map(child => {
@@ -260,14 +261,14 @@ export default {
                 child.indeterminate = false;
               }
             }
-            if(hasArrayChild(child)){
-              loop(child.children, status)
+            if(hasArrayChild(child, vm.childrenKey)){
+              loop(child[vm.childrenKey], status)
             }
           })
         }
       }
-      if(node && hasArrayChild(node) && this.selectChildren){
-        loop(node.children, node.checked);
+      if(node && hasArrayChild(node, vm.childrenKey) && this.selectChildren){
+        loop(node[vm.childrenKey], node.checked);
       }
     },
     /**
@@ -275,18 +276,19 @@ export default {
      * 依赖 this.selectChildren
      */
     markParentChecked(node){
+      const vm = this;
       node.indeterminate = false;
       function loop(node){
         let checkCount = 0;
-        if(hasArrayChild(node)){
-          let childIndeterminate = node.children.some(child => child.indeterminate)
-          node.children.map(child => {
+        if(hasArrayChild(node, vm.childrenKey)){
+          let childIndeterminate = node[vm.childrenKey].some(child => child.indeterminate)
+          node[vm.childrenKey].map(child => {
             if(child.checked){
               checkCount ++;
             }
           })
           // 子节点全部被选中
-          if(checkCount === node.children.length){
+          if(checkCount === node[vm.childrenKey].length){
             node.checked = true;
             node.indeterminate = false;
           } else {
@@ -311,17 +313,20 @@ export default {
      * 依赖 this.selectChildren
      */
     markParentHasCheckChild(node){
+      const vm = this;
       node.hasCheckedChild = false;
       function loop(node){
         let checkCount = 0;
-        let childHasCheckedChild = node.children.some(child => child.hasCheckedChild)
-        node.children.map(child => {
-          if(child.checked){
-            checkCount ++;
-          }
-        })
-        // 子节点有被选中
-        node.hasCheckedChild = (checkCount > 0) || childHasCheckedChild;
+        if(hasArrayChild(node, vm.childrenKey)){
+          let childHasCheckedChild = node[vm.childrenKey].some(child => child.hasCheckedChild)
+          node[vm.childrenKey].map(child => {
+            if(child.checked){
+              checkCount ++;
+            }
+          })
+          // 子节点有被选中
+          node.hasCheckedChild = (checkCount > 0) || childHasCheckedChild;
+        }
         if(node.parent){
           loop(node.parent)
         }
@@ -351,6 +356,7 @@ export default {
      * 重新遍历tree，pick除已选中项目
      */
     pickCheckedItem(tree){
+      const vm = this;
       /**
        * 移除parent引用
        */
@@ -361,14 +367,14 @@ export default {
             obj[key] = node[key];
           }
         })
-        if(hasArrayChild(obj)){
-          obj.children = obj.children.map(child => {
+        if(hasArrayChild(obj, vm.childrenKey)){
+          obj[vm.childrenKey] = obj[vm.childrenKey].map(child => {
             return removeParent(child);
           })
         }
         return obj;
       }
-      const vm = this;
+
       vm.selectedItems = [];
       vm.selectedLabels = [];
       vm.selectedValues = [];
@@ -378,11 +384,11 @@ export default {
             if(item.checked){
               let newItem = removeParent(item);
               vm.selectedItems.push(newItem);
-              vm.selectedLabels.push(vm.getLevel(item, "label", vm.showAllLevels));
-              vm.selectedValues.push(vm.getLevel(item, "value", vm.outputLevelValue));
+              vm.selectedLabels.push(vm.getLevel(item, vm.labelKey, vm.showAllLevels));
+              vm.selectedValues.push(vm.getLevel(item, vm.valueKey, vm.outputLevelValue));
             }
-            if(hasArrayChild(item)){
-              loop(item.children)
+            if(hasArrayChild(item, vm.childrenKey)){
+              loop(item[vm.childrenKey])
             }
           })
         }
@@ -400,12 +406,12 @@ export default {
         function loop(tree){
           if(tree){
             tree.find(node => {
-              if(vm.getLevel(node, "label", vm.showAllLevels) === label){
+              if(vm.getLevel(node, vm.labelKey, vm.showAllLevels) === label){
                 result = node;
                 return true
               }
-              if(hasArrayChild(node)){
-                loop(node.children)
+              if(hasArrayChild(node, vm.childrenKey)){
+                loop(node[vm.childrenKey])
               }
             })
           }
@@ -438,24 +444,29 @@ export default {
     },
     // 展开下一级
     async spreadNext(children, index, item) {
+      const vm = this;
       if(
-        this.allowLoadChildren && 
-        !children && !item.children &&
-        this.loadChildrenMethod && 
-        this.loadChildrenMethod.constructor === Function &&
+        vm.allowLoadChildren && 
+        !children && !item[vm.childrenKey] &&
+        vm.loadChildrenMethod && 
+        vm.loadChildrenMethod.constructor === Function &&
         !item.isLeaf
       ){
-        this.$set(item, "loading", true);
-        let result = await this.loadChildrenMethod(item).catch(e => {
+        if(this.loadChildrenMethod(item).constructor === Promise){
+          this.$set(item, "loading", true);
+          let result = await this.loadChildrenMethod(item).catch(e => {
+            this.$set(item, "loading", false);
+          });
           this.$set(item, "loading", false);
-        });
-        this.$set(item, "loading", false);
-        if(result && result.constructor === Array){
-          this.recursiveOpt(result, item);
-          this.$set(item, "children", result);
-          children = result;
+          if(result && result.constructor === Array){
+            this.recursiveOpt(result, item);
+            this.$set(item, vm.childrenKey, result);
+            children = result;
+          } else {
+            console.warn("The resolved value by loadChildrenMethod must be Option Array !")
+          }
         } else {
-          console.warn("The resolved value by loadChildrenMethod must be Option Array !")
+          console.warn("You must return a Promise instance in loadChildrenMethod !")
         }
       }
       
@@ -487,7 +498,7 @@ export default {
       this.showPopover = false;
       this.$emit("blur", evt);
     },
-    // 触发resize，让poppover跟随选框，不兼容IE ~_~!
+    // 触发resize，让poppover跟随选框，不兼容IE8 ~_~!
     refresPopover() {
       let resize = new Event("resize");
       setTimeout(() => {
