@@ -386,13 +386,16 @@ export default {
       }
 
       if (index || index === 0) {
-        if (children && children.length > 0) {
-          vm.casTree.splice(index + 1, vm.casTree.length - 1, children);
-        } else {
-          vm.casTree.splice(index + 1, vm.casTree.length - 1);
+        if(vm.casTree.indexOf(children) === -1){
+          if (children && children.length > 0) {
+            vm.casTree.splice(index + 1, vm.casTree.length - 1, children);
+          } else {
+            vm.casTree.splice(index + 1, vm.casTree.length - 1);
+          }
+
+          vm.$emit("spread", item);
         }
       }
-      vm.$emit("spread", item);
     },
     // 改变菜单宽度
     setPopperWidth() {
