@@ -25,9 +25,6 @@
 - 支持 `@clickItem` 事件，返回当前点击项，触发时机先于 `@change`
 - 修复 `v-model` 只能初始化一次的BUG [#5](https://github.com/webCoderJ/ele-multi-cascader/issues/5)
 
-![](./imgs/cas.png)
-![](./imgs/cas-data.png)
-
 ### 安装
 
 > 可直接复制源码
@@ -73,7 +70,7 @@ Vue.use(EleMultiCascader)
 #### Item Attributes
 
 | 参数     | 说明           | 类型                                                         | 可选值     | 默认值 |
-| -------- | -------------- | ------------------------------------------------------------ | ---------- | ------ |
+| -------- | ------------------------------ | ------------------------------ | ---------- | ------ |
 | isLeaf   | 是否为叶子节点 | Boolean，`特别说明：`标记该项目是否为叶子节点(树的最后一层)，仅用于动态加载子项。如果children(childrenKey)值不为空，会直接忽略isLeaf。如果为真，则不会加载子选项，也不会有`加载指示灯`，详情可查看[demo](https://webcoderj.github.io/ele-multi-cascader-demo/) | true/false | false  |
 | disabled | 禁用该选项     | Boolean                                                      | true/false | false  |
 
@@ -89,7 +86,10 @@ Vue.use(EleMultiCascader)
 | clickItem | 点击某个子项     | Object: 子项                                          |
 | spread    | 展开某选项       | Object: 子项                                          |
 
-### 使用
+### 示例
+
+![](./imgs/cas.png)
+![](./imgs/cas-data.png)
 
 ```html
 <!-- *.vue -->

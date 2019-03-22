@@ -115,7 +115,8 @@ export default {
       casTree: [],
       selectedItems: [],
       selectedLabels: [],
-      selectedValues: []
+      selectedValues: [],
+      loadChildrenPromise: null
     };
   },
   methods: {
@@ -360,14 +361,18 @@ export default {
         !children && !item[vm.childrenKey] &&
         vm.loadChildrenMethod && 
         vm.loadChildrenMethod.constructor === Function &&
+        !vm.loadChildrenPromise && // promise 不存在
         !item.isLeaf
       ){
-        if(this.loadChildrenMethod(item).constructor === Promise){
+        let isPromiseMethod = this.loadChildrenMethod(item);
+        if(isPromiseMethod.constructor === Promise){
+          vm.loadChildrenPromise = isPromiseMethod;
           this.$set(item, "loading", true);
-          let result = await this.loadChildrenMethod(item).catch(e => {
+          let result = await vm.loadChildrenPromise.catch(e => {
             this.$set(item, "loading", false);
           });
           this.$set(item, "loading", false);
+          vm.loadChildrenPromise = null;
           if(result && result.constructor === Array){
             this.recursiveOpt(result, item);
             this.$set(item, vm.childrenKey, result);
@@ -379,16 +384,15 @@ export default {
           console.warn("You must return a Promise instance in loadChildrenMethod !")
         }
       }
-      
+
       if (index || index === 0) {
         if (children && children.length > 0) {
-          this.casTree.splice(index + 1, this.casTree.length - 1, children);
+          vm.casTree.splice(index + 1, vm.casTree.length - 1, children);
         } else {
-          this.casTree.splice(index + 1, this.casTree.length - 1);
+          vm.casTree.splice(index + 1, vm.casTree.length - 1);
         }
       }
-
-      this.$emit("spread", item);
+      vm.$emit("spread", item);
     },
     // 改变菜单宽度
     setPopperWidth() {
