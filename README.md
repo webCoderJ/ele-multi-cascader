@@ -2,17 +2,15 @@
 
 ### 概述
 
-> 由于`elementUI` 的级联选择器暂不支持多选，因此基于`elementUI`二次开发此组件，所有的样式`class`都是使用 `elementUI` 原样式，基本可无副作用的引入项目使用，仅实现了基本需求，不过应该满足使用。有任何问题欢迎发布 `issue` ，我会在看到第一时间回复大家。
+> 由于`elementUI` 的级联选择器暂不支持多选，因此基于`elementUI`二次开发此组件，所有的样式`class`都是使用 `elementUI` 原样式，基本可无副作用的引入项目使用，仅实现了基本需求，不过应该满足使用。有任何问题欢迎发布 `issue`，我会在看到第一时间回复大家。
+> 如果觉得组件还不错的话 不要吝啬你的 `star` 哦 ~,~
 - [查看demo](https://webcoderj.github.io/ele-multi-cascader-demo/)
 - [查看demo仓库](https://www.github.com/webcoderj/ele-multi-cascader-demo/)
 
-#### 2019-03-12
+#### 2019-03-22
 
-支持动态加载子项 `Function(parentItem<Object>): Promise: []`
-
-
-#### 2019-03-12
-最近真的很忙，没有时间更新，大家提的ISSUE都看到了。基本都是小问题和功能更新。预计在四月初回更新完善 ^_^
+- 支持动态加载子项 [#17](https://github.com/webCoderJ/ele-multi-cascader/issues/17) `Function(parentItem<Object>): Promise: []` 详情查看`Attributes`文档
+- 支持通过设置 `label-key` ， `children-key` ， `value-key` 来设置 label、value、children 字段
 
 #### 2019-01-16 更新
 - 修复 [#11](https://github.com/webCoderJ/ele-multi-cascader/issues/11) BUG
@@ -52,19 +50,34 @@ Vue.use(EleMultiCascader)
 
 ### Attributes
 
-| 参数                                                         | 说明                         | 类型    | 可选值            | 默认值 |
-| ------------------------------------------------------------ | ---------------------------- | ------- | ----------------- | ------ |
-| options（当前仅支持children, value, label, disabled等字段）传入组件时需要转换数据，disabled可以禁用某个选项 | 选项数据源                   | Array   | --                | --     |
-| v-model(value)                                               | 绑定值                       | Array   | --                | --     |
-| placeholder                                                  | 占位文本                     | String  | --                | 请选择 |
-| no-data-text                                                 | 无数据占位字符               | String  |                   | 无数据 |
-| size                                                         | 尺寸                         | String  | medium/small/mini | --     |
-| disabled                                                     | 禁用                         | Boolean | true/false        | false  |
-| selectChildren                                               | 点击选中子项                 | Boolean | true/false        | false  |
-| collapse-tags                                                | 是否折叠标签                 | Boolean | true/false        | false  |
-| show-all-levels                                              | 控制标签展示全部层级         | Boolean | true/false        | false  |
-| output-level-value                                           | 控制输出value 是否为全部层级 | Boolean | true/false        | false  |
-| separator （会对输出value和展示标签同时起作用）              | 层级分隔符                   | String  | -                 | /      |
+| 参数                                            | 说明                               | 类型                                      | 可选值            | 默认值 |
+| ----------------------------------------------- | ---------------------------------- | ----------------------------------------- | ----------------- | ------ |
+| options                                         | 选项数据源                         | Array                                     | --                | --     |
+| v-model(value)                                  | 绑定值                             | Array                                     | --                | --     |
+| placeholder                                     | 占位文本                           | String                                    | --                | 请选择 |
+| no-data-text                                    | 无数据占位字符                     | String                                    |                   | 无数据 |
+| size                                            | 尺寸                               | String                                    | medium/small/mini | --     |
+| disabled                                        | 禁用                               | Boolean                                   | true/false        | false  |
+| selectChildren                                  | 点击选中子项                       | Boolean                                   | true/false        | false  |
+| collapse-tags                                   | 是否折叠标签                       | Boolean                                   | true/false        | false  |
+| show-all-levels                                 | 控制标签展示全部层级               | Boolean                                   | true/false        | false  |
+| output-level-value                              | 控制输出value 是否为全部层级       | Boolean                                   | true/false        | false  |
+| separator （会对输出value和展示标签同时起作用） | 层级分隔符                         | String                                    | -                 | /      |
+| allowLoadChildren                               | 是否动态加载子选项                 | Boolean                                   | true/false        | false  |
+| loadChildrenMethod                              | 加载子选项方法                     | Function(parentItem<Object>): Promise: [] | Function          | null   |
+| showLoadingIndicator                            | 是否展示子项可加载指示器           | Boolean                                   | true/false        | true   |
+| label-key、value-key、children-key              | 用于设置label、value、children字段 | String                                    | String            | label  |
+
+
+
+#### Item Attributes
+
+| 参数     | 说明           | 类型                                                         | 可选值     | 默认值 |
+| -------- | -------------- | ------------------------------------------------------------ | ---------- | ------ |
+| isLeaf   | 是否为叶子节点 | Boolean，`特别说明：`这一选项是option字段，说明是否为叶子节点(树的最后一层)。如果是，则不会加载子选项，也不会有`加载指示灯`，详情可查看[demo](https://webcoderj.github.io/ele-multi-cascader-demo/) | true/false | false  |
+| disabled | 禁用该选项     | Boolean                                                      | true/false | false  |
+
+
 
 ### 事件
 
@@ -73,7 +86,8 @@ Vue.use(EleMultiCascader)
 | change    | 绑定值发生变化时 | (Array:values当前选中值, Array:items当前选中对象数组) |
 | blur      | 失去焦点         | --                                                    |
 | focus     | 获得焦点         | --                                                    |
-| clickItem | 点击某个子项     | Object:子项                                           |
+| clickItem | 点击某个子项     | Object: 子项                                          |
+| spread    | 展开某选项       | Object: 子项                                          |
 
 ### 使用
 
