@@ -2,13 +2,17 @@
 
 ### 概述
 
-> 由于`elementUI` 的级联选择器暂不支持多选，因此基于`elementUI`二次开发此组件，所有的样式`class`都是使用 `elementUI` 原样式，基本可无副作用的引入项目使用，仅实现了基本需求，不过应该满足使用。有任何问题欢迎发布 `issue`，我会在看到第一时间回复大家。
+> 由于`elementUI` 的级联选择器暂不支持多选，因此基于`elementUI`开发此组件，所有的样式`class`都是使用 `elementUI` 原样式，基本可无副作用的引入项目使用，有任何问题欢迎发布 `issue`，我会在看到第一时间回复大家。
 > 如果觉得组件还不错的话 不要吝啬你的 `star` 哦~
 - [查看demo](https://webcoderj.github.io/ele-multi-cascader-demo/)
 - [查看demo仓库](https://www.github.com/webcoderj/ele-multi-cascader-demo/)
 
-#### 2019-03-22 更新
+#### 2019-03-27 更新
+- 新增 `clearable` 选项，控制清除全部已选项，同 `elementUI` [#30](https://github.com/webCoderJ/ele-multi-cascader/issues/30)
+- 新增 `popperClass` 选项，自定义弹出层 `class`，同 `elementUI` [#30](https://github.com/webCoderJ/ele-multi-cascader/issues/30)
+- 新增 `remove-tag`  `clear`事件，同 `elementUI`
 
+#### 2019-03-22 更新
 - 支持动态加载子项 [#17](https://github.com/webCoderJ/ele-multi-cascader/issues/17) `Function(parentItem<Object>): Promise: []` 详情查看`Attributes`文档
 - 支持通过设置 `label-key` ， `children-key` ， `value-key` 来设置 label、value、children 字段
 
@@ -64,6 +68,8 @@ Vue.use(EleMultiCascader)
 | loadChildrenMethod                              | 加载子选项方法                     | Function(parentItem<Object>): Promise: [] | Function          | null   |
 | showLoadingIndicator                            | 是否展示子项可加载指示器           | Boolean                                   | true/false        | true   |
 | label-key、value-key、children-key              | 用于设置label、value、children字段 | String                                    | String            | label  |
+| clearable                                       | 是否可清除全部已选项               | Boolean                                   | true/false        | false  |
+| popperClass                                     | Select 下拉框的类名                | string                                    | -                 | -      |
 
 
 
@@ -78,13 +84,15 @@ Vue.use(EleMultiCascader)
 
 ### 事件
 
-| 事件名称  | 说明             | 回调参数                                              |
-| --------- | ---------------- | ----------------------------------------------------- |
-| change    | 绑定值发生变化时 | (Array:values当前选中值, Array:items当前选中对象数组) |
-| blur      | 失去焦点         | --                                                    |
-| focus     | 获得焦点         | --                                                    |
-| clickItem | 点击某个子项     | Object: 子项                                          |
-| spread    | 展开某选项       | Object: 子项                                          |
+| 事件名称   | 说明                                     | 回调参数                                              |
+| ---------- | ---------------------------------------- | ----------------------------------------------------- |
+| change     | 绑定值发生变化时                         | (Array:values当前选中值, Array:items当前选中对象数组) |
+| blur       | 失去焦点                                 | --                                                    |
+| focus      | 获得焦点                                 | --                                                    |
+| clickItem  | 点击某个子项                             | Object: 子项                                          |
+| spread     | 展开某选项                               | Object: 子项                                          |
+| remove-tag | 移除tag时触发                            | (String:label移除的tag，Object:deletedItem所移除选项) |
+| clear      | 可清空的单选模式下用户点击清空按钮时触发 | --                                                    |
 
 ### 示例
 

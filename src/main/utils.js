@@ -18,6 +18,12 @@ export function hasArrayChild(obj, childrenKey) {
   return obj[childrenKey] && Array.isArray(obj[childrenKey]);
 }
 
+let id = 0;
+
+export function getId() {
+  return ++ id;
+}
+
 // 所有选项
 export const props = {
   value: {
@@ -96,5 +102,13 @@ export const props = {
   childrenKey: {
     type: String,
     default: "children"
+  },
+  popperClass: {
+    type: String,
+    default: ""
+  },
+  clearable: {
+    type: Boolean,
+    default: false
   }
 };

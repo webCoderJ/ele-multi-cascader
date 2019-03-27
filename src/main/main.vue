@@ -3,7 +3,7 @@
     <el-popover
       placement="bottom-start"
       trigger="manual"
-      :popper-class="popperClass"
+      :popper-class="popOverClass"
       v-model="showPopover"
     >
       <div slot="reference">
@@ -18,7 +18,9 @@
           popper-class="hide-popper"
           @focus="handleFocus"
           @remove-tag="removeTag"
+          @clear="clearTag"
           @visible-change="visibleChange"
+          :clearable="clearable"
         ></el-select>
       </div>
       <div class="cascader-menu-wrapper" v-clickoutside="hidePopover">
@@ -58,7 +60,7 @@
 
 <script>
 import Clickoutside from "./clickoutside";
-import { props, hasArrayChild, deepClone } from "./utils";
+import { props, hasArrayChild, deepClone, getId } from "./utils";
 export default {
   name: "EleMultiCascader",
   props,
@@ -90,7 +92,8 @@ export default {
   },
   directives: { Clickoutside },
   created() {
-    this.popperClass = `cascader-popper popper-class-${(new Date().getTime())}`
+    this.classRef = `popper-class-${getId()}`
+    this.popOverClass = `cascader-popper ${this.classRef} ${this.popperClass}`
     this.initOpts();
     this.initDatas();
   },
@@ -109,7 +112,8 @@ export default {
     return {
       elWidth: "",
       popperWidth: "",
-      popperClass: "",
+      popOverClass: "",
+      classRef: "",
       showPopover: false,
       clonedOpts: [],
       casTree: [],
@@ -336,6 +340,27 @@ export default {
       if(deletedItem){
         vm.checkedChange(deletedItem, false);
       }
+
+      this.$emit("remove-tag", label, deletedItem);
+    },
+    clearTag(){
+      const vm = this;
+      function loop(nodeArr) {
+        nodeArr.forEach(node => {
+          node.checked = false;
+          node.indeterminate = false;
+          if (hasArrayChild(node, vm.childrenKey)) {
+            loop(node[vm.childrenKey]);
+          }
+        });
+      }
+      // 关闭全部状态
+      loop(this.clonedOpts);
+      this.selectedLabels = [];
+      this.selectedValues = [];
+      this.selectedItems = [];
+      this.$emit("clear");
+      this.syncData();
     },
     // 菜单选中变化
     checkedChange(item, checked) {
@@ -400,7 +425,7 @@ export default {
     // 改变菜单宽度
     setPopperWidth() {
       let width = (160 + 1) * this.casTree.length;
-      document.getElementsByClassName(this.popperClass)[0].style.width = width + "px";
+      document.getElementsByClassName(this.classRef)[0].style.width = width + "px";
     },
     visibleChange(visible){
       if(visible){
