@@ -60,7 +60,7 @@
 
 <script>
 import Clickoutside from "./clickoutside";
-import { props, hasArrayChild, deepClone, getId } from "./utils";
+import { props, hasArrayChild, deepClone, getId, fireEvent } from "./utils";
 export default {
   name: "EleMultiCascader",
   props,
@@ -440,11 +440,9 @@ export default {
       this.showPopover = false;
       this.$emit("blur", evt);
     },
-    // 触发resize，让poppover跟随选框，不兼容IE8 ~_~!
     refresPopover() {
-      let resize = new Event("resize");
       setTimeout(() => {
-        window.dispatchEvent(resize);
+        fireEvent(window, "resize")
       }, 66);
     }
   }

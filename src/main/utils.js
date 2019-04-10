@@ -24,6 +24,19 @@ export function getId() {
   return ++ id;
 }
 
+export function fireEvent(element, event) {
+  if (document.createEventObject) {
+    // IE浏览器支持fireEvent方法
+    var evt = document.createEventObject();
+    return element.fireEvent("on" + event, evt);
+  } else {
+    // 其他标准浏览器使用dispatchEvent方法
+    var evt = document.createEvent("HTMLEvents");
+    evt.initEvent(event, true, true);
+    return !element.dispatchEvent(evt);
+  }
+}
+
 // 所有选项
 export const props = {
   value: {
