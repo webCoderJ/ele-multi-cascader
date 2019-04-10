@@ -425,7 +425,10 @@ export default {
     // 改变菜单宽度
     setPopperWidth() {
       let width = (160 + 1) * this.casTree.length;
-      document.getElementsByClassName(this.classRef)[0].style.width = width + "px";
+      let el = document.getElementsByClassName(this.classRef)[0];
+      if(el){
+        el.style.width = width + "px";
+      }
     },
     visibleChange(visible){
       if(visible){
