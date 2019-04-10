@@ -1,1 +1,3 @@
-export * from './src/index'
+import EleMultiCascader from './src/index'
+
+export default EleMultiCascader
