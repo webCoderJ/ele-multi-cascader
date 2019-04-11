@@ -97,6 +97,11 @@ export const props = {
     type: Boolean,
     default: false
   },
+  // 允许选择非叶子节点
+  changeOnSelect: {
+    type: Boolean,
+    default: false
+  },
   // 加载方法
   loadChildrenMethod: {
     type: Function,
