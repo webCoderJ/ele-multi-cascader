@@ -1,7 +1,6 @@
-// import Vue from 'vue';
+import Vue from 'vue';
 
-// const isServer = Vue.prototype.$isServer;
-const isServer = false;
+const isServer = Vue.prototype.$isServer;
 
 /* istanbul ignore next */
 export const on = (function() {
@@ -23,14 +22,14 @@ export const on = (function() {
 const nodeList = [];
 const ctx = '@@clickoutsideContext';
 
-// let startClick;
+let startClick;
 let seed = 0;
 
-// !Vue.prototype.$isServer && on(document, 'mousedown', e => (startClick = e));
+!Vue.prototype.$isServer && on(document, 'mousedown', e => (startClick = e));
 
-// !Vue.prototype.$isServer && on(document, 'mouseup', e => {
-//   nodeList.forEach(node => node[ctx].documentHandler(e, startClick));
-// });
+!Vue.prototype.$isServer && on(document, 'mouseup', e => {
+  nodeList.forEach(node => node[ctx].documentHandler(e, startClick));
+});
 
 function createDocumentHandler(el, binding, vnode) {
   return function(mouseup = {}, mousedown = {}) {

@@ -10,32 +10,31 @@
   "homepage": "https://github.com/webCoderJ/ele-multi-cascader",
   "private": false,
   "scripts": {
-    "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "serve": "vue-cli-service serve ./example/main.js --open",
+    "build": "vue-cli-service build --name cascader --entry ./src/index.js --target lib",
+    "build:doc": "vue-cli-service build ./example/main.js --dest docs --mode production"
   },
   "keywords": [
     "级联选择器",
     "cascader",
     "element",
-    "vue"
+    "vue",
+    "component"
   ],
   "dependencies": {
     "element-ui": "^2.4.11",
-    "vue": "^2.5.17"
+    "vue": "^2.5.17",
+    "vue-github-button": "^1.0.7"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.2.0",
     "@vue/cli-plugin-eslint": "^3.2.0",
     "@vue/cli-service": "^3.2.0",
     "babel-eslint": "^10.0.1",
+    "babel-core": "7.0.0-bridge.0",
     "eslint": "^5.8.0",
     "eslint-plugin-vue": "^5.0.0-0",
     "vue-template-compiler": "^2.5.17"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/webCoderJ/ele-multi-cascader.git"
   },
   "eslintConfig": {
     "root": true,
