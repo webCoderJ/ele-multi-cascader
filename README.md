@@ -7,6 +7,14 @@
 - [查看demo](https://webcoderj.github.io/ele-multi-cascader-demo/)
 - [查看demo仓库](https://www.github.com/webcoderj/ele-multi-cascader-demo/)
 
+#### 2019-04-19 更新
+- 修复动态加载中错误警告导致子集无法展开的问题 [#41](https://github.com/webCoderJ/ele-multi-cascader/issues/41) [#47](https://github.com/webCoderJ/ele-multi-cascader/issues/47)
+- 修复选项面板宽度无法自定义/自适应问题 [#44](https://github.com/webCoderJ/ele-multi-cascader/issues/44) [#46](https://github.com/webCoderJ/ele-multi-cascader/issues/46)
+- 新增`panelWidth<Number | String>`选项控制子项面板宽度。
+  - Number - 默认 180
+  - 为String时只可设置唯一值 `auto`，面板会根据内容自动撑开。但不建议这么做，因为数据的长度是未知的。
+- 提高浏览器兼容性
+
 #### 2019-03-27 更新
 - 新增 `clearable` 选项，控制清除全部已选项，同 `elementUI` [#30](https://github.com/webCoderJ/ele-multi-cascader/issues/30)
 - 新增 `popperClass` 选项，自定义弹出层 `class`，同 `elementUI` [#30](https://github.com/webCoderJ/ele-multi-cascader/issues/30)
@@ -70,6 +78,7 @@ Vue.use(EleMultiCascader)
 | label-key、value-key、children-key              | 用于设置label、value、children字段 | String                                    | String            | label  |
 | clearable                                       | 是否可清除全部已选项               | Boolean                                   | true/false        | false  |
 | popperClass                                     | Select 下拉框的类名                | string                                    | -                 | -      |
+| panelWidth                                      | 控制层级面板宽度                   | Number / String                           | Number /  'auto'  | 180    |
 
 
 

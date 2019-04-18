@@ -116,6 +116,7 @@
                             labelKey="title"
                             valueKey="id"
                             childrenKey="sub"
+                            :panelWidth="180"
                         ></ele-multi-cascader>
                     </el-form-item>
                     <br>

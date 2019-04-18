@@ -38,7 +38,7 @@ export function fireEvent(element, event) {
 }
 
 export function isPromise(obj) {
-  return !!obj && (typeof obj === "object" || typeof obj === "function") && typeof obj.then === "function";
+    return !!obj && (typeof obj === "object" || typeof obj === "function") && typeof obj.then === "function";
 }
 
 // 所有选项
@@ -127,5 +127,9 @@ export const props = {
     clearable: {
         type: Boolean,
         default: false
+    },
+    panelWidth: {
+        type: [Number, String],
+        default: 160
     }
 };

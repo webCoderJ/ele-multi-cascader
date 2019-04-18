@@ -24,7 +24,11 @@
         ></el-select>
       </div>
       <div class="cascader-menu-wrapper" v-clickoutside="hidePopover">
-        <ul v-if="options.length > 0" class="el-cascader-menu cascader-menu" v-for="(cas, index) in casTree" :key="index">
+        <ul v-if="options.length > 0" 
+          class="el-cascader-menu cascader-menu" 
+          :style="{'width': panelWidth === 'auto' ? 'auto' : panelWidth + 'px'}"
+          v-for="(cas, index) in casTree" :key="index"
+        >
           <li
             :class="{
               'el-cascader-menu__item': true,
@@ -37,6 +41,7 @@
             @click="spreadNext(item[childrenKey], index, item)"
             v-for="(item, itemIdx) in cas"
             :key="itemIdx"
+            :title="item[labelKey]"
           >
             <el-checkbox
               @click.native.stop
@@ -65,9 +70,6 @@ export default {
   name: "EleMultiCascader",
   props,
   watch: {
-    casTree(){
-      this.setPopperWidth();
-    },
     options: {
       deep: true,
       handler() {
@@ -403,7 +405,7 @@ export default {
             this.$set(item, vm.childrenKey, result);
             children = result;
           } else {
-            console.warn("The resolved value by loadChildrenMethod must be Option Array !")
+            console.warn("The resolved value by loadChildrenMethod must be an Option Array !")
           }
         } else {
           console.warn("You must return a Promise instance in loadChildrenMethod !")
@@ -420,14 +422,6 @@ export default {
 
           vm.$emit("spread", item);
         }
-      }
-    },
-    // 改变菜单宽度
-    setPopperWidth() {
-      let width = (160 + 1) * this.casTree.length;
-      let el = document.getElementsByClassName(this.classRef)[0];
-      if(el){
-        el.style.width = width + "px";
       }
     },
     visibleChange(visible){
@@ -457,11 +451,11 @@ export default {
   display: none;
 }
 .cascader-popper {
-  width: 100%;
   padding: 0px;
 }
-.cascader-menu {
-  width: 160px !important;
+.cascader-menu-wrapper {
+  white-space: nowrap;
+  overflow-x: auto;
 }
 .el-cascader-menu__item.has-checked-child {
   background-color: #f5f7fa !important;
