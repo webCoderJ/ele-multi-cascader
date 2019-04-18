@@ -116,7 +116,7 @@
                             labelKey="title"
                             valueKey="id"
                             childrenKey="sub"
-                            :panelWidth="180"
+                            :panelWidth="'auto'"
                         ></ele-multi-cascader>
                     </el-form-item>
                     <br>
@@ -145,7 +145,8 @@
 import {options} from "./db/options";
 export default {
     name: "app",
-    data: function() {
+    data() {
+        
         return {
             options,
             outputs: {
@@ -176,6 +177,7 @@ export default {
                 outputLevelValue: true,
                 disabled: false
             }
+            
         };
     },
     created() {
@@ -191,11 +193,11 @@ export default {
         this.resetModel();
     },
     methods: {
-        ispChange: function(values, items) {
+        ispChange(values, items) {
             this.outputs.values = values;
             this.outputs.items = items;
         },
-        resetModel: function() {
+        resetModel() {
             this.form.isp = [];
             this.outputs.items = [];
             this.outputs.values = [];
@@ -212,7 +214,7 @@ export default {
                     : ["51", "52", "59"];
             }, 0);
         },
-        submit: function() {
+        submit() {
             this.$refs.form.validate(valid => {
                 if (valid) {
                     this.$message({
@@ -222,7 +224,7 @@ export default {
                 }
             });
         },
-        spread: function(item) {
+        spread(item) {
             console.log("TCL: spread -> item", item);
             // this.$notify({
             //   type: "success",
@@ -230,7 +232,7 @@ export default {
             //   message: `isLeaf: ${item.sub ? !!item.sub[0].isLeaf : ''}`,
             // })
         },
-        loadChildren: function(item) {
+        loadChildren(item) {
             if (item.id) {
                 return new Promise((resolve, reject) => {
                     setTimeout(_ => {

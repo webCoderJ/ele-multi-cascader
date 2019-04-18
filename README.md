@@ -6,6 +6,8 @@
 > 如果觉得组件还不错的话 不要吝啬你的 `star` 哦~
 - [查看demo](https://webcoderj.github.io/ele-multi-cascader-demo/)
 - [查看demo仓库](https://www.github.com/webcoderj/ele-multi-cascader-demo/)
+- [安装](#安装)
+- [文档](#Attributes)
 
 #### 2019-04-18 更新
 - 恕我不才，兼容IE的大计就交给你们了，IE可以复制源码，放入webpack环境打包。

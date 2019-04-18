@@ -26,6 +26,7 @@
     "component"
   ],
   "dependencies": {
+    "ele-multi-cascader": "^2.2.4",
     "element-ui": "^2.4.11",
     "vue": "^2.5.17",
     "vue-github-button": "^1.0.7"
@@ -35,8 +36,8 @@
     "@vue/cli-plugin-babel": "^3.2.0",
     "@vue/cli-plugin-eslint": "^3.2.0",
     "@vue/cli-service": "^3.2.0",
-    "babel-eslint": "^10.0.1",
     "babel-core": "7.0.0-bridge.0",
+    "babel-eslint": "^10.0.1",
     "eslint": "^5.8.0",
     "eslint-plugin-vue": "^5.0.0-0",
     "vue-template-compiler": "^2.5.17"
