@@ -60,7 +60,7 @@
 
 <script>
 import Clickoutside from "./clickoutside";
-import { props, hasArrayChild, deepClone, getId, fireEvent } from "./utils";
+import { props, hasArrayChild, deepClone, getId, fireEvent, isPromise } from "./utils";
 export default {
   name: "EleMultiCascader",
   props,
@@ -390,7 +390,7 @@ export default {
         !item.isLeaf
       ){
         let isPromiseMethod = this.loadChildrenMethod(item);
-        if(isPromiseMethod.constructor === Promise){
+        if(isPromise(isPromiseMethod)){
           vm.loadChildrenPromise = isPromiseMethod;
           this.$set(item, "loading", true);
           let result = await vm.loadChildrenPromise.catch(e => {
