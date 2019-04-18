@@ -8,6 +8,8 @@ import GithubButton from 'vue-github-button';
 Vue.component(GithubButton.name, GithubButton)
 
 import eleMultiCascader from "../src/index";
+import "ele-multi-cascader/dist/cascader.css"
+
 Vue.use(eleMultiCascader)
 
 Vue.config.productionTip = false

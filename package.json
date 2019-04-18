@@ -6,12 +6,16 @@
     "email": "jiejiexf@qq.com",
     "github": "github.com/webCoderJ"
   },
-  "main": "index.js",
+  "main": "dist/cascader.umd.js",
+  "files": [
+    "dist",
+    "src"
+  ],
   "homepage": "https://github.com/webCoderJ/ele-multi-cascader",
   "private": false,
   "scripts": {
     "serve": "vue-cli-service serve ./example/main.js --open",
-    "build": "vue-cli-service build --name cascader --entry ./src/index.js --target lib",
+    "build": "vue-cli-service build --name cascader --entry ./src/index.js --target lib --mode production",
     "build:doc": "vue-cli-service build ./example/main.js --dest docs --mode production"
   },
   "keywords": [
@@ -26,6 +30,7 @@
     "vue": "^2.5.17",
     "vue-github-button": "^1.0.7"
   },
+  "license": "MIT",
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.2.0",
     "@vue/cli-plugin-eslint": "^3.2.0",
@@ -56,7 +61,6 @@
     }
   },
   "browserslist": [
-    "> 1%",
     "last 2 versions",
     "not ie <= 8"
   ]

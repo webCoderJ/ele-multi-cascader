@@ -145,7 +145,7 @@
 import {options} from "./db/options";
 export default {
     name: "app",
-    data() {
+    data: function() {
         return {
             options,
             outputs: {
@@ -191,11 +191,11 @@ export default {
         this.resetModel();
     },
     methods: {
-        ispChange(values, items) {
+        ispChange: function(values, items) {
             this.outputs.values = values;
             this.outputs.items = items;
         },
-        resetModel() {
+        resetModel: function() {
             this.form.isp = [];
             this.outputs.items = [];
             this.outputs.values = [];
@@ -212,7 +212,7 @@ export default {
                     : ["51", "52", "59"];
             }, 0);
         },
-        submit() {
+        submit: function() {
             this.$refs.form.validate(valid => {
                 if (valid) {
                     this.$message({
@@ -222,7 +222,7 @@ export default {
                 }
             });
         },
-        spread(item) {
+        spread: function(item) {
             console.log("TCL: spread -> item", item);
             // this.$notify({
             //   type: "success",
@@ -230,7 +230,7 @@ export default {
             //   message: `isLeaf: ${item.sub ? !!item.sub[0].isLeaf : ''}`,
             // })
         },
-        loadChildren(item) {
+        loadChildren: function(item) {
             if (item.id) {
                 return new Promise((resolve, reject) => {
                     setTimeout(_ => {
