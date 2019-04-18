@@ -4,8 +4,7 @@
 
 > 由于`elementUI` 的级联选择器暂不支持多选，因此基于`elementUI`开发此组件，所有的样式`class`都是使用 `elementUI` 原样式，基本可无副作用的引入项目使用，有任何问题欢迎发布 `issue`，我会在看到第一时间回复大家。
 > 如果觉得组件还不错的话 不要吝啬你的 `star` 哦~
-- [查看demo](https://webcoderj.github.io/ele-multi-cascader-demo/)
-- [查看demo仓库](https://www.github.com/webcoderj/ele-multi-cascader-demo/)
+- [查看demo](https://webcoderj.github.io/ele-multi-cascader/)
 - [安装](#安装)
 - [文档](#Attributes)
 
