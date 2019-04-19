@@ -173,34 +173,6 @@ module.exports = function (Base, NAME, Constructor, next, DEFAULT, IS_SET, FORCE
 
 /***/ }),
 
-/***/ "097d":
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-// https://github.com/tc39/proposal-promise-finally
-
-var $export = __webpack_require__("5ca1");
-var core = __webpack_require__("8378");
-var global = __webpack_require__("7726");
-var speciesConstructor = __webpack_require__("ebd6");
-var promiseResolve = __webpack_require__("bcaa");
-
-$export($export.P + $export.R, 'Promise', { 'finally': function (onFinally) {
-  var C = speciesConstructor(this, core.Promise || global.Promise);
-  var isFunction = typeof onFinally == 'function';
-  return this.then(
-    isFunction ? function (x) {
-      return promiseResolve(C, onFinally()).then(function () { return x; });
-    } : onFinally,
-    isFunction ? function (e) {
-      return promiseResolve(C, onFinally()).then(function () { throw e; });
-    } : onFinally
-  );
-} });
-
-
-/***/ }),
-
 /***/ "0a49":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2944,7 +2916,7 @@ if (typeof window !== 'undefined') {
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es6.function.name.js
 var es6_function_name = __webpack_require__("7f7f");
 
-// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"57f3ff48-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/main/main.vue?vue&type=template&id=a6981f1a&
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"48b948cf-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/main/main.vue?vue&type=template&id=a6981f1a&
 var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"cascader-wrapper"},[_c('el-popover',{attrs:{"placement":"bottom-start","trigger":"manual","popper-class":_vm.popOverClass},model:{value:(_vm.showPopover),callback:function ($$v) {_vm.showPopover=$$v},expression:"showPopover"}},[_c('div',{attrs:{"slot":"reference"},slot:"reference"},[_c('el-select',{staticStyle:{"width":"100%"},attrs:{"multiple":"","placeholder":_vm.placeholder,"disabled":_vm.disabled,"size":_vm.size,"collapse-tags":_vm.collapseTags,"popper-class":"hide-popper","clearable":_vm.clearable},on:{"focus":_vm.handleFocus,"remove-tag":_vm.removeTag,"clear":_vm.clearTag,"visible-change":_vm.visibleChange},model:{value:(_vm.selectedLabels),callback:function ($$v) {_vm.selectedLabels=$$v},expression:"selectedLabels"}})],1),_c('div',{directives:[{name:"clickoutside",rawName:"v-clickoutside",value:(_vm.hidePopover),expression:"hidePopover"}],staticClass:"cascader-menu-wrapper"},_vm._l((_vm.casTree),function(cas,index){return (_vm.options.length > 0)?_c('ul',{key:index,staticClass:"el-cascader-menu cascader-menu",style:({'width': _vm.panelWidth === 'auto' ? 'auto' : _vm.panelWidth + 'px'})},_vm._l((cas),function(item,itemIdx){return _c('li',{key:itemIdx,class:{
             'el-cascader-menu__item': true,
             'el-cascader-menu__item--extensible': item[_vm.childrenKey] && item[_vm.childrenKey].length > 0,
@@ -3000,20 +2972,14 @@ function _asyncToGenerator(fn) {
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es6.array.find.js
 var es6_array_find = __webpack_require__("7514");
 
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es6.array.iterator.js
+var es6_array_iterator = __webpack_require__("cadf");
+
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es6.object.keys.js
 var es6_object_keys = __webpack_require__("456d");
 
 // EXTERNAL MODULE: ./node_modules/core-js/modules/web.dom.iterable.js
 var web_dom_iterable = __webpack_require__("ac6a");
-
-// EXTERNAL MODULE: ./node_modules/core-js/modules/es6.array.iterator.js
-var es6_array_iterator = __webpack_require__("cadf");
-
-// EXTERNAL MODULE: ./node_modules/core-js/modules/es6.promise.js
-var es6_promise = __webpack_require__("551c");
-
-// EXTERNAL MODULE: ./node_modules/core-js/modules/es7.promise.finally.js
-var es7_promise_finally = __webpack_require__("097d");
 
 // EXTERNAL MODULE: external {"commonjs":"vue","commonjs2":"vue","root":"Vue"}
 var external_commonjs_vue_commonjs2_vue_root_Vue_ = __webpack_require__("8bbf");
@@ -3107,6 +3073,9 @@ function createDocumentHandler(el, binding, vnode) {
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es6.number.constructor.js
 var es6_number_constructor = __webpack_require__("c5f6");
 
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es6.promise.js
+var es6_promise = __webpack_require__("551c");
+
 // CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/typeof.js
 function _typeof2(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof2 = function _typeof2(obj) { return typeof obj; }; } else { _typeof2 = function _typeof2(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof2(obj); }
 
@@ -3124,7 +3093,6 @@ function _typeof(obj) {
   return _typeof(obj);
 }
 // CONCATENATED MODULE: ./src/main/utils.js
-
 
 
 
@@ -3262,8 +3230,6 @@ var props = {
   }
 };
 // CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/main/main.vue?vue&type=script&lang=js&
-
-
 
 
 
@@ -3926,18 +3892,6 @@ component.options.__file = "main.vue"
 /* harmony default export */ var main = (component.exports);
 // CONCATENATED MODULE: ./src/index.js
 
-
-/* istanbul ignore if */
-
-/* istanbul ignore next */
-// EleMultiCascader.install = function(Vue) {
-//     Vue.component(EleMultiCascader.name, EleMultiCascader);
-// };
-// /* istanbul ignore if */
-// if (typeof window !== 'undefined' && window.Vue) {
-//   Vue.component(EleMultiCascader.name, EleMultiCascader);
-// }
-// export default EleMultiCascader;
 
 /* harmony default export */ var src = ({
   install: function install(Vue) {

@@ -8,16 +8,16 @@ let config = {
     }
 };
 
-if (process.env.NODE_ENV === "production") {
-    config.configureWebpack.externals = {
-        cascaderjs: {
-            commonjs: "multi-cascaderjs",
-            commonjs2: "multi-cascaderjs",
-            amd: "multi-cascaderjs",
-            cmd: "multi-cascaderjs",
-            root: "Multi-cascaderjs"
-        }
-    };
-}
+// if (process.env.NODE_ENV === "production") {
+//     config.configureWebpack.externals = {
+//         cascaderjs: {
+//             commonjs: "multi-cascaderjs",
+//             commonjs2: "multi-cascaderjs",
+//             amd: "multi-cascaderjs",
+//             cmd: "multi-cascaderjs",
+//             root: "Multi-cascaderjs"
+//         }
+//     };
+// }
 
 module.exports = config;
