@@ -15,6 +15,7 @@
 - 新增`panelWidth<Number | String>`选项控制层级面板宽度。
   - Number - 默认 180
   - String - 只可设置唯一值 `auto`，面板会根据内容自动撑开。但不建议这么做，因为数据的长度是未知的。
+- 采用了umd打包方式，项目中需要单独引用 `import "ele-multi-cascader/dist/cascader.css"`。
 
 #### 2019-03-27 更新
 - 新增 `clearable` 选项，控制清除全部已选项，同 `elementUI` [#30](https://github.com/webCoderJ/ele-multi-cascader/issues/30)
