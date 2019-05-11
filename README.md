@@ -9,7 +9,7 @@
 - [文档](#Attributes)
 
 #### 2019-04-18 更新
-- 恕我不才，兼容IE的大计就交给你们了，IE可以复制源码，放入webpack环境打包。
+- IE可以复制源码，放入webpack环境打包。
 - 修复动态加载中错误警告导致子集无法展开的问题 [#41](https://github.com/webCoderJ/ele-multi-cascader/issues/41) [#47](https://github.com/webCoderJ/ele-multi-cascader/issues/47)
 - 修复选项面板宽度无法自定义/自适应问题 [#44](https://github.com/webCoderJ/ele-multi-cascader/issues/44) [#46](https://github.com/webCoderJ/ele-multi-cascader/issues/46)
 - 新增`panelWidth<Number | String>`选项控制层级面板宽度。
