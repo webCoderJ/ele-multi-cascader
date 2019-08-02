@@ -8,7 +8,8 @@ import GithubButton from 'vue-github-button';
 Vue.component(GithubButton.name, GithubButton)
 
 import eleMultiCascader from "../src/index";
-// import "ele-multi-cascader/dist/cascader.css"
+import 'element-ui/lib/theme-chalk/index.css';
+import "ele-multi-cascader/dist/cascader.css";
 
 Vue.use(eleMultiCascader)
 
