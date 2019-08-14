@@ -44,6 +44,7 @@
             :title="item[labelKey]"
           >
             <el-checkbox
+              v-if="changeOnSelect||!item[childrenKey]"
               @click.native.stop
               :disabled="item.disabled"
               v-model="item.checked"
