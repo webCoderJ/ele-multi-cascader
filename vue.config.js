@@ -1,10 +1,14 @@
 let config = {
-    baseUrl: process.env.NODE_ENV === "production" ? "/ele-multi-cascader/" : "/",
+    publicPath: process.env.NODE_ENV === "production" ? "/ele-multi-cascader/" : "/",
 
     configureWebpack: {
         output: {
             libraryExport: "default"
         }
+    },
+
+    css: {
+        extract: false
     }
 };
 

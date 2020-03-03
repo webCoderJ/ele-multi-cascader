@@ -8,7 +8,15 @@
 - [安装](#安装)
 - [文档](#Attributes)
 
-#### 2019-04-18 更新。
+#### 2020-03-03 更新
+
+**TIP：**当前包基于 `elementUI 2.4.11` 开发，安装之后很有可能出现与使用的版本不兼容的情况，由于版本更新频繁加上搬砖任务繁重，没法为每个版本做兼容。强烈建议大家直接Copy源码食用，可随意做样式修改，源码结构比较简单，修改无需太多成本 : )
+
+- 修复[Demo](https://webcoderj.github.io/ele-multi-cascader/)中样式错乱的问题 [#78](https://github.com/webCoderJ/ele-multi-cascader/issues/78) [#69](https://github.com/webCoderJ/ele-multi-cascader/issues/69)
+- 在v2.2.5之后将组件CSS打包到输出js文件中，使用时无需单独引用包中CSS文件
+
+#### 2019-04-18 更新
+
 - 由于IE的兼容性问题比较复杂，需要结合 babel 相关插件实现，并且打包出来体积会比较大，所以 dist 文件中的包没有兼容 IE，需要兼容 IE 可以拷贝源码放入具备兼容插件的环境中打包实现
 - 修复动态加载中错误警告导致子集无法展开的问题 [#41](https://github.com/webCoderJ/ele-multi-cascader/issues/41) [#47](https://github.com/webCoderJ/ele-multi-cascader/issues/47)
 - 修复选项面板宽度无法自定义/自适应问题 [#44](https://github.com/webCoderJ/ele-multi-cascader/issues/44) [#46](https://github.com/webCoderJ/ele-multi-cascader/issues/46)
@@ -54,6 +62,7 @@ npm install ele-multi-cascader
 ```js
 // main.js
 import EleMultiCascader from "ele-multi-cascader"
+// 从2.2.5后不需要单独引用CSS
 import "ele-multi-cascader/dist/cascader.css"
 
 Vue.use(Element)

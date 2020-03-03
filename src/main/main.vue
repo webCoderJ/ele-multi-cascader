@@ -44,6 +44,7 @@
             :title="item[labelKey]"
           >
             <el-checkbox
+              class="cascader-checkbox"
               @click.native.stop
               :disabled="item.disabled"
               v-model="item.checked"
@@ -457,6 +458,9 @@ export default {
   white-space: nowrap;
   overflow-x: auto;
 }
+.cascader-menu-wrapper .cascader-checkbox {
+  margin-right: 10px;
+}
 .el-cascader-menu__item.has-checked-child {
   background-color: #f5f7fa !important;
 }
@@ -480,7 +484,7 @@ export default {
   background: #a5d279;
   right: 20px;
   top: 50%;
-  border-radius: 10px;
+  border-radius:50%;
   transform: translateY(-50%);
   -webkit-transform: translateY(-50%);
 }
