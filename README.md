@@ -85,12 +85,12 @@ Vue.use(EleMultiCascader)
 | output-level-value                              | 控制输出value 是否为全部层级       | Boolean                                   | true/false        | false  |
 | separator （会对输出value和展示标签同时起作用） | 层级分隔符                         | String                                    | -                 | /      |
 | allowLoadChildren                               | 是否动态加载子选项                 | Boolean                                   | true/false        | false  |
-| loadChildrenMethod                              | 加载子选项方法                     | Function(parentItem<Object>): Promise: [] | Function          | null   |
+| loadChildrenMethod                              | 加载子选项方法                     | (parentItem: Object) => Promise<Array> | Function          | null   |
 | showLoadingIndicator                            | 是否展示子项可加载指示器           | Boolean                                   | true/false        | true   |
 | label-key、value-key、children-key              | 用于设置label、value、children字段 | String                                    | String            | label  |
 | clearable                                       | 是否可清除全部已选项               | Boolean                                   | true/false        | false  |
 | popperClass                                     | Select 下拉框的类名                | string                                    | -                 | -      |
-| panelWidth                                      | 控制层级面板宽度                   | Number / String                           | Number /  'auto'  | 180    |
+| panelWidth                                      | 控制层级面板宽度                   | Number | String                           | Number /  'auto'  | 180    |
 
 
 
